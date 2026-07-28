@@ -51,53 +51,57 @@ export const Reports: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="glass-panel p-6 border-brand-500/30">
+    <div className="space-y-8" role="region" aria-label="Financial Reports">
+      {/* Hero Panel */}
+      <div className="hero-panel">
         <div className="flex items-center gap-2 mb-1">
           <Badge variant="brand" size="sm">Audited Reporting</Badge>
           <span className="type-caption font-mono">SOC2 Type II Certified</span>
         </div>
-        <h1 className="type-heading-xl text-slate-100">Financial Reports & Tax Statements</h1>
-        <p className="type-body text-slate-400 mt-1">
+        <h1 className="type-display-l text-slate-100">Financial Reports & Tax Statements</h1>
+        <p className="type-body-l text-slate-300 mt-1">
           Download institutional audit statements, 1099-B tax harvesting logs, and ESG compliance reports.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Responsive Grid: 4 cols (Desktop) -> 2 cols (Tablet) -> 1 col (Mobile) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {reportsList.map((rep) => (
-          <Card key={rep.id} variant="glass" className="p-6 space-y-4">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-brand-500/15 border border-brand-500/30 text-brand-400 flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="type-heading-m font-bold text-slate-100">{rep.title}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="neutral" size="sm">{rep.category}</Badge>
-                    <span className="type-caption text-slate-400 font-mono">{rep.date}</span>
-                  </div>
+          <Card key={rep.id} variant="glass" className="p-6 flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <FileText className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <h3 className="type-heading-m font-bold text-slate-100">{rep.title}</h3>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <Badge variant="neutral" size="sm">{rep.category}</Badge>
+                  <span className="type-caption text-slate-400 font-mono">{rep.date}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-dark-border/40 text-xs">
-              <span className="type-caption text-slate-400 font-mono">File Size: {rep.size} ({rep.format})</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t border-white/10 gap-3 text-xs">
+              <span className="type-caption text-slate-400 font-mono">Size: {rep.size}</span>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Button
                   variant="outline"
                   size="sm"
+                  fullWidth
                   onClick={() => handleDownload(rep.title, 'PDF')}
-                  leftIcon={<Download className="w-3.5 h-3.5" />}
+                  leftIcon={<Download className="w-3.5 h-3.5" aria-hidden="true" />}
+                  aria-label={`Download ${rep.title} as PDF`}
                 >
                   PDF
                 </Button>
                 <Button
                   variant="secondary"
                   size="sm"
+                  fullWidth
                   onClick={() => handleDownload(rep.title, 'CSV')}
-                  leftIcon={<Download className="w-3.5 h-3.5" />}
+                  leftIcon={<Download className="w-3.5 h-3.5" aria-hidden="true" />}
+                  aria-label={`Download ${rep.title} as CSV`}
                 >
                   CSV
                 </Button>

@@ -14,6 +14,7 @@ export interface Column<T> {
   accessor: (row: T) => React.ReactNode;
   sortable?: boolean;
   align?: 'left' | 'center' | 'right';
+  priority?: 'high' | 'medium' | 'low';
 }
 
 export interface DataTableProps<T> {
@@ -23,6 +24,7 @@ export interface DataTableProps<T> {
   searchKey?: (row: T) => string;
   pageSize?: number;
   onRowClick?: (row: T) => void;
+  renderMobileCard?: (row: T) => React.ReactNode;
   className?: string;
 }
 
@@ -33,6 +35,7 @@ export function DataTable<T extends { id?: string | number }>({
   searchKey,
   pageSize = 8,
   onRowClick,
+  renderMobileCard,
   className = '',
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,12 +88,12 @@ export function DataTable<T extends { id?: string | number }>({
   };
 
   return (
-    <div className={`space-y-3 ${className}`}>
-      {/* Table Action Controls */}
+    <div className={`space-y-4 ${className}`}>
+      {/* Table Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         {searchKey && (
           <div className="relative flex-1 max-w-sm">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               placeholder={searchPlaceholder}
@@ -100,6 +103,7 @@ export function DataTable<T extends { id?: string | number }>({
                 setCurrentPage(1);
               }}
               className="glass-input w-full pl-10 pr-4 py-2 text-xs"
+              aria-label={searchPlaceholder}
             />
           </div>
         )}
@@ -107,26 +111,28 @@ export function DataTable<T extends { id?: string | number }>({
         <div className="flex items-center gap-2 ml-auto">
           <button
             onClick={() => setIsCompact(!isCompact)}
-            className="px-2.5 py-1.5 rounded-xl border border-dark-border bg-dark-card text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-slate-100 light:border-slate-200 light:text-slate-700"
+            className="px-3 py-2 rounded-xl border border-dark-border bg-dark-card text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-slate-100 light:border-slate-200 light:text-slate-700 min-h-[44px] sm:min-h-[36px]"
             title="Toggle compact density mode"
+            aria-label="Toggle table density mode"
           >
-            {isCompact ? <Maximize2 className="w-3.5 h-3.5" /> : <Minimize2 className="w-3.5 h-3.5" />}
+            {isCompact ? <Maximize2 className="w-3.5 h-3.5" aria-hidden="true" /> : <Minimize2 className="w-3.5 h-3.5" aria-hidden="true" />}
             <span className="text-[11px]">{isCompact ? 'Comfortable' : 'Compact'}</span>
           </button>
         </div>
       </div>
 
-      {/* Table Container */}
-      <div className="rounded-2xl border border-dark-border/80 bg-dark-card overflow-x-auto shadow-card-elevated dark:bg-dark-card dark:border-dark-border/80 light:bg-white light:border-light-border light:shadow-card-light">
+      {/* Desktop / Tablet View: Sticky Full Data Table */}
+      <div className="hidden sm:block rounded-2xl border border-dark-border/80 bg-dark-card overflow-x-auto shadow-card-elevated dark:bg-dark-card dark:border-dark-border/80 light:bg-white light:border-light-border light:shadow-card-light">
         <table className="w-full text-left border-collapse">
-          {/* Sticky Header */}
-          <thead className="bg-dark-surface/90 border-b border-dark-border/80 sticky top-0 z-10 backdrop-blur-md dark:bg-dark-surface/90 dark:border-dark-border/80 light:bg-slate-50 light:border-slate-200">
+          <thead className="bg-dark-surface1/90 border-b border-dark-border/80 sticky top-0 z-10 backdrop-blur-md dark:bg-dark-surface1/90 dark:border-dark-border/80 light:bg-slate-50 light:border-slate-200">
             <tr>
-              {columns.map((col) => (
+              {columns.map((col, i) => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
                   className={`type-overline px-4 py-3.5 font-bold select-none ${
+                    i === 0 ? 'sticky left-0 z-20 bg-dark-surface1/95 dark:bg-dark-surface1/95 light:bg-slate-50' : ''
+                  } ${
                     col.sortable ? 'cursor-pointer hover:text-white dark:hover:text-white light:hover:text-slate-900' : ''
                   } ${
                     col.align === 'right'
@@ -146,12 +152,12 @@ export function DataTable<T extends { id?: string | number }>({
                       <span className="text-slate-500">
                         {sortKey === col.key ? (
                           sortOrder === 'asc' ? (
-                            <ChevronUp className="w-3.5 h-3.5 text-brand-400" />
+                            <ChevronUp className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
                           ) : (
-                            <ChevronDown className="w-3.5 h-3.5 text-brand-400" />
+                            <ChevronDown className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
                           )
                         ) : (
-                          <ChevronsUpDown className="w-3.5 h-3.5" />
+                          <ChevronsUpDown className="w-3.5 h-3.5" aria-hidden="true" />
                         )}
                       </span>
                     )}
@@ -161,7 +167,6 @@ export function DataTable<T extends { id?: string | number }>({
             </tr>
           </thead>
 
-          {/* Table Body */}
           <tbody className="divide-y divide-dark-border/40 dark:divide-dark-border/40 light:divide-slate-100">
             {paginatedData.length > 0 ? (
               paginatedData.map((row, idx) => {
@@ -175,18 +180,18 @@ export function DataTable<T extends { id?: string | number }>({
                       onRowClick?.(row);
                     }}
                     className={`transition-colors cursor-pointer ${
-                      isCompact ? 'py-2' : 'py-3.5'
-                    } ${
                       isSelected
                         ? 'bg-brand-500/10 dark:bg-brand-500/10 light:bg-emerald-50/80'
                         : 'hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-50'
                     }`}
                   >
-                    {columns.map((col) => (
+                    {columns.map((col, i) => (
                       <td
                         key={col.key}
                         className={`px-4 text-xs type-body ${
                           isCompact ? 'py-2.5' : 'py-3.5'
+                        } ${
+                          i === 0 ? 'sticky left-0 bg-dark-card dark:bg-dark-card light:bg-white font-bold' : ''
                         } ${
                           col.align === 'right'
                             ? 'text-right font-mono-nums'
@@ -212,20 +217,57 @@ export function DataTable<T extends { id?: string | number }>({
         </table>
       </div>
 
+      {/* Mobile View (<768px): Responsive Cards List */}
+      <div className="block sm:hidden space-y-3">
+        {paginatedData.length > 0 ? (
+          paginatedData.map((row, idx) => (
+            <div
+              key={row.id ?? idx}
+              onClick={() => onRowClick?.(row)}
+              className="p-4 rounded-2xl bg-dark-surface2 border border-white/10 space-y-3 cursor-pointer active:scale-[0.99] transition-transform dark:bg-dark-surface2 light:bg-white light:border-slate-200"
+            >
+              {renderMobileCard ? (
+                renderMobileCard(row)
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                    <span className="font-bold text-slate-100">{columns[0]?.accessor(row)}</span>
+                    <span>{columns[columns.length - 1]?.accessor(row)}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {columns.slice(1, -1).map((col) => (
+                      <div key={col.key} className="space-y-0.5">
+                        <span className="type-caption text-slate-400 block">{col.header}</span>
+                        <span className="font-semibold text-slate-200">{col.accessor(row)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <div className="p-6 text-center type-caption text-slate-400 bg-dark-surface2 rounded-2xl border border-white/10">
+            No matching records found.
+          </div>
+        )}
+      </div>
+
       {/* Pagination Footer */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-xs text-slate-400 px-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 px-2 pt-2">
           <span>
             Showing <strong className="text-slate-200">{Math.min(filteredData.length, (currentPage - 1) * pageSize + 1)}</strong> to{' '}
             <strong className="text-slate-200">{Math.min(filteredData.length, currentPage * pageSize)}</strong> of{' '}
             <strong className="text-slate-200">{filteredData.length}</strong> results
           </span>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 w-full sm:w-auto justify-between sm:justify-end">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 py-1.5 rounded-lg border border-dark-border bg-dark-card disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-white light:border-slate-200 light:hover:bg-slate-100"
+              className="px-4 py-2.5 sm:py-1.5 rounded-xl border border-dark-border bg-dark-card disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-white light:border-slate-200 min-h-[44px] sm:min-h-[36px]"
+              aria-label="Previous page"
             >
               Previous
             </button>
@@ -235,7 +277,8 @@ export function DataTable<T extends { id?: string | number }>({
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3 py-1.5 rounded-lg border border-dark-border bg-dark-card disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-white light:border-slate-200 light:hover:bg-slate-100"
+              className="px-4 py-2.5 sm:py-1.5 rounded-xl border border-dark-border bg-dark-card disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 transition-colors cursor-pointer dark:bg-dark-card dark:border-dark-border light:bg-white light:border-slate-200 min-h-[44px] sm:min-h-[36px]"
+              aria-label="Next page"
             >
               Next
             </button>
