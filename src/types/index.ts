@@ -1,6 +1,7 @@
 export type AssetCategory = 'stock' | 'etf' | 'crypto' | 'bond' | 'cash';
 
 export interface Asset {
+  id?: string;
   symbol: string;
   name: string;
   category: AssetCategory;

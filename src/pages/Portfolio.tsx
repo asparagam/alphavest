@@ -1,180 +1,166 @@
 import React, { useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import { Card } from '../components/ui/Card';
 import { DataTable } from '../components/ui/DataTable';
 import type { Column } from '../components/ui/DataTable';
-import { Tabs } from '../components/ui/Tabs';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { ReturnBadge, Badge } from '../components/ui/Badge';
-import type { Asset } from '../types';
+import { Badge, ReturnBadge } from '../components/ui/Badge';
 import { formatCurrency } from '../utils/formatters';
+import type { Asset } from '../types';
+import { Sparkles, ArrowLeftRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
 
 export const Portfolio: React.FC = () => {
-  const { assets, executeRebalance } = usePortfolio();
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const { assets, totalPortfolioValue, executeRebalance, toggleWatchlist, watchlist } = usePortfolio();
+  const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const navigate = useNavigate();
 
   const filteredAssets = assets.filter((a) => {
-    if (selectedCategory === 'all') return true;
-    return a.category === selectedCategory;
+    if (selectedCategory === 'ALL') return true;
+    return a.category.toUpperCase() === selectedCategory;
   });
 
   const columns: Column<Asset>[] = [
     {
       key: 'symbol',
-      header: 'Asset',
+      header: 'Asset / Ticker',
       sortable: true,
-      render: (asset) => (
+      accessor: (asset) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-dark-card border border-dark-border flex items-center justify-center font-bold font-mono text-brand-400">
-            {asset.symbol.slice(0, 3)}
-          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleWatchlist(asset.symbol);
+            }}
+            className="text-slate-500 hover:text-amber-400 cursor-pointer"
+          >
+            <Star
+              className={`w-4 h-4 ${
+                watchlist.includes(asset.symbol) ? 'fill-amber-400 text-amber-400' : ''
+              }`}
+            />
+          </button>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-slate-100">{asset.symbol}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono font-bold text-slate-100 dark:text-slate-100 light:text-slate-900">{asset.symbol}</span>
               <Badge variant="neutral" size="sm">{asset.category}</Badge>
             </div>
-            <span className="text-xs text-slate-400">{asset.name}</span>
+            <span className="type-caption text-slate-400 dark:text-slate-400 light:text-slate-500 block truncate">{asset.name}</span>
           </div>
         </div>
       ),
     },
     {
       key: 'price',
-      header: 'Price',
+      header: 'Price ($)',
       sortable: true,
       align: 'right',
-      render: (asset) => (
-        <div className="font-mono font-semibold text-slate-100">
+      accessor: (asset) => (
+        <span className="font-mono font-bold text-slate-100 font-mono-nums">
           {formatCurrency(asset.price)}
-        </div>
+        </span>
       ),
     },
     {
-      key: 'change24hPercent',
+      key: 'change24h',
       header: '24h Change',
       sortable: true,
       align: 'right',
-      render: (asset) => <ReturnBadge value={asset.change24hPercent} percent={true} />,
+      accessor: (asset) => <ReturnBadge value={asset.change24hPercent} />,
     },
     {
       key: 'holdingsValue',
-      header: 'Value / Holdings',
+      header: 'Holdings Valuation',
       sortable: true,
       align: 'right',
-      render: (asset) => (
-        <div className="text-right">
-          <div className="font-mono font-bold text-slate-100">{formatCurrency(asset.holdingsValue)}</div>
-          <div className="text-xs text-slate-400 font-mono">
-            {asset.holdingsQty.toLocaleString()} {asset.symbol}
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: 'totalReturnPercent',
-      header: 'Total Return',
-      sortable: true,
-      align: 'right',
-      render: (asset) => (
-        <div className="text-right">
-          <ReturnBadge value={asset.totalReturnPercent} percent={true} />
-          <div className="text-[11px] font-mono text-slate-400 mt-0.5">
-            {formatCurrency(asset.totalReturn)}
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: 'riskScore',
-      header: 'AI Risk Rating',
-      sortable: true,
-      align: 'center',
-      render: (asset) => {
-        const isHighRisk = asset.riskScore > 65;
-        return (
-          <span className={`px-2.5 py-1 text-xs font-mono font-bold rounded-lg ${
-            isHighRisk ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-brand-500/20 text-brand-400 border border-brand-500/30'
-          }`}>
-            Score: {asset.riskScore}
+      accessor: (asset) => (
+        <div>
+          <span className="font-mono font-bold text-emerald-400 font-mono-nums block">
+            {formatCurrency(asset.holdingsValue)}
           </span>
-        );
-      },
+          <span className="type-caption text-slate-400 font-mono">
+            {asset.holdingsQty.toLocaleString()} units
+          </span>
+        </div>
+      ),
+    },
+    {
+      key: 'allocation',
+      header: 'Weight (%)',
+      sortable: true,
+      align: 'right',
+      accessor: (asset) => (
+        <span className="font-mono font-bold text-slate-300 font-mono-nums">
+          {asset.allocationPercent.toFixed(1)}%
+        </span>
+      ),
     },
     {
       key: 'actions',
-      header: 'Actions',
+      header: 'Trade',
       align: 'right',
-      render: (asset) => (
-        <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/asset/${asset.symbol}`);
-            }}
-          >
-            Details
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/trading?symbol=${asset.symbol}`);
-            }}
-            leftIcon={<ArrowUpRight className="w-3.5 h-3.5" />}
-          >
-            Trade
-          </Button>
-        </div>
+      accessor: (asset) => (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/trading?symbol=${asset.symbol}`);
+          }}
+          leftIcon={<ArrowLeftRight className="w-3.5 h-3.5" />}
+        >
+          Trade
+        </Button>
       ),
     },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-6">
+      {/* Header Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-6 border-brand-500/30">
         <div>
-          <h1 className="text-2xl font-bold font-display text-slate-100">Holdings & Portfolio Structure</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Complete list of active positions, cost basis, total returns, and risk metrics.
+          <h1 className="type-heading-xl text-slate-100">Portfolio Holdings & Positions</h1>
+          <p className="type-body text-slate-400 mt-1">
+            Real-time asset telemetry across {assets.length} core institutional positions. Total Valuation: <span className="font-mono font-bold text-emerald-400">{formatCurrency(totalPortfolioValue)}</span>
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ai"
-            size="md"
-            onClick={executeRebalance}
-            leftIcon={<Sparkles className="w-4 h-4" />}
-          >
-            Auto-Rebalance Portfolio
-          </Button>
-        </div>
+
+        <Button
+          variant="ai"
+          size="md"
+          onClick={executeRebalance}
+          leftIcon={<Sparkles className="w-4 h-4" />}
+        >
+          Auto-Rebalance
+        </Button>
       </div>
 
-      <Tabs
-        activeTab={selectedCategory}
-        onChange={setSelectedCategory}
-        tabs={[
-          { id: 'all', label: 'All Holdings', count: assets.length },
-          { id: 'stock', label: 'Stocks', count: assets.filter(a => a.category === 'stock').length },
-          { id: 'crypto', label: 'Crypto', count: assets.filter(a => a.category === 'crypto').length },
-          { id: 'etf', label: 'ETFs', count: assets.filter(a => a.category === 'etf').length },
-          { id: 'bond', label: 'Bonds', count: assets.filter(a => a.category === 'bond').length },
-          { id: 'cash', label: 'Cash & Reserves', count: assets.filter(a => a.category === 'cash').length },
-        ]}
-      />
+      {/* Category Tabs */}
+      <div className="flex flex-wrap items-center gap-2">
+        {(['ALL', 'STOCKS', 'CRYPTO', 'ETFS', 'BONDS', 'CASH'] as const).map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+              selectedCategory === cat
+                ? 'bg-brand-500 text-white border-brand-500 shadow-emerald-glow'
+                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
-      <Card variant="glass">
+      {/* Main DataTable */}
+      <Card variant="glass" className="p-6">
         <DataTable
           data={filteredAssets}
           columns={columns}
-          searchKey="name"
-          searchPlaceholder="Search holdings by name or ticker..."
+          searchPlaceholder="Search asset symbol or name..."
+          searchKey={(a) => `${a.symbol} ${a.name}`}
+          pageSize={10}
           onRowClick={(asset) => navigate(`/asset/${asset.symbol}`)}
         />
       </Card>

@@ -1,84 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: dark light;
   }
-  
+
   body {
-    @apply bg-dark-base text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-500/30 selection:text-brand-300;
+    @apply bg-dark-base text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Light mode root overrides */
+  html.light body {
+    @apply bg-light-base text-slate-900;
   }
 }
 
-/* Custom Scrollbars */
+/* Custom Typography Utility Hierarchy */
+.type-display {
+  @apply font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100;
+}
+
+.type-heading-xl {
+  @apply font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100;
+}
+
+.type-heading-l {
+  @apply font-display text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100;
+}
+
+.type-heading-m {
+  @apply font-display text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100;
+}
+
+.type-body-lg {
+  @apply text-base font-normal leading-relaxed text-slate-700 dark:text-slate-300;
+}
+
+.type-body {
+  @apply text-sm font-normal leading-normal text-slate-700 dark:text-slate-300;
+}
+
+.type-caption {
+  @apply text-xs font-medium text-slate-600 dark:text-slate-400;
+}
+
+.type-overline {
+  @apply text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400;
+}
+
+/* Glassmorphism & Surface Utility Classes */
+.glass-panel {
+  @apply bg-white border border-light-border shadow-glass-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface/90 dark:border-dark-border/80 dark:shadow-card-elevated;
+}
+
+.glass-card {
+  @apply bg-white border border-light-border rounded-2xl backdrop-blur-md shadow-card-light transition-all duration-200 hover:border-slate-300 dark:bg-dark-card dark:border-dark-border dark:shadow-sm dark:hover:border-dark-border/90;
+}
+
+.glass-input {
+  @apply bg-slate-100/80 border border-slate-300 text-slate-900 placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-card/90 dark:border-dark-border dark:text-slate-100 dark:placeholder-slate-400;
+}
+
+/* Tabular Numbers for Financial Telemetry */
+.font-mono-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+  @apply font-mono;
+}
+
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  @apply bg-slate-300 hover:bg-slate-400 rounded-full dark:bg-slate-800/80 dark:hover:bg-slate-700;
 }
 
-.light ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-}
-.light ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/* Glassmorphism Classes */
-.glass-panel {
-  @apply bg-dark-card/80 backdrop-blur-xl border border-dark-border/80 shadow-glass rounded-2xl transition-all duration-200;
-}
-
-.light .glass-panel {
-  @apply bg-white/90 backdrop-blur-xl border-light-border shadow-md rounded-2xl;
-}
-
-.glass-card {
-  @apply bg-dark-surface/90 backdrop-blur-md border border-dark-border/60 hover:border-brand-500/30 rounded-xl transition-all duration-300;
-}
-
-.light .glass-card {
-  @apply bg-white backdrop-blur-md border-light-border hover:border-brand-500/30 rounded-xl;
-}
-
-.glass-input {
-  @apply bg-dark-surface/90 border border-dark-border text-slate-100 placeholder-slate-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl outline-none transition-all duration-200;
-}
-
-.light .glass-input {
-  @apply bg-slate-50 border-light-border text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500;
-}
-
-/* Focus Visible */
+/* Global High Contrast Focus State */
 *:focus-visible {
-  @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-dark-base;
+  @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-dark-base;
 }
 
-/* Recharts Tooltip Custom Styling */
-.recharts-default-tooltip {
-  background-color: rgba(19, 27, 46, 0.95) !important;
-  border: 1px solid rgba(35, 48, 77, 0.8) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: blur(12px) !important;
-  padding: 12px 16px !important;
+.scroll-hide::-webkit-scrollbar {
+  display: none;
 }
-
-.light .recharts-default-tooltip {
-  background-color: rgba(255, 255, 255, 0.98) !important;
-  border: 1px solid #e2e8f0 !important;
-  color: #0f172a !important;
+.scroll-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

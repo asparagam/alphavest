@@ -11,6 +11,7 @@ export interface MetricCardProps {
   subtext?: string;
   icon?: React.ReactNode;
   sparkline?: number[];
+  variant?: 'glass' | 'solid' | 'gradient' | 'ai';
   glowing?: boolean;
 }
 
@@ -22,67 +23,91 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   subtext,
   icon,
   sparkline,
+  variant = 'glass',
   glowing = false,
 }) => {
+  const isPositive = changePercent !== undefined ? changePercent >= 0 : (change !== undefined ? change >= 0 : true);
+
+  // Sparkline path generator
+  const renderSparkline = () => {
+    if (!sparkline || sparkline.length < 2) return null;
+    const min = Math.min(...sparkline);
+    const max = Math.max(...sparkline);
+    const range = max - min || 1;
+    const width = 100;
+    const height = 32;
+
+    const points = sparkline
+      .map((val, idx) => {
+        const x = (idx / (sparkline.length - 1)) * width;
+        const y = height - ((val - min) / range) * (height - 6) - 3;
+        return `${x},${y}`;
+      })
+      .join(' ');
+
+    const color = isPositive ? '#10b981' : '#ef4444';
+
+    return (
+      <svg className="w-24 h-8 overflow-visible opacity-90" viewBox={`0 0 ${width} ${height}`}>
+        <defs>
+          <linearGradient id={`sparkline-grad-${title.replace(/\s+/g, '-')}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+            <stop offset="100%" stopColor={color} stopOpacity="0.0" />
+          </linearGradient>
+        </defs>
+        <path
+          d={`M 0,${height} L ${points} L ${width},${height} Z`}
+          fill={`url(#sparkline-grad-${title.replace(/\s+/g, '-')})`}
+        />
+        <polyline
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          points={points}
+        />
+      </svg>
+    );
+  };
+
   return (
-    <Card glowing={glowing} className="hover:scale-[1.01] transition-transform duration-200">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold text-slate-400 dark:text-slate-400 light:text-slate-500 uppercase tracking-wider">
-          {title}
-        </span>
-        {icon && (
-          <div className="w-9 h-9 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center">
-            {icon}
+    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.15 }}>
+      <Card variant={variant} glowing={glowing} className="p-6 relative group border border-dark-border/80 dark:border-dark-border/80 light:border-slate-200 hover:border-brand-500/40">
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-1 min-w-0">
+            <span className="type-overline block font-semibold text-slate-400 dark:text-slate-400 light:text-slate-500 truncate">
+              {title}
+            </span>
+
+            {/* Dominant Numeric Value */}
+            <div className="text-2xl sm:text-3xl font-extrabold font-mono font-mono-nums tracking-tight text-slate-100 dark:text-slate-100 light:text-slate-900 mt-1.5">
+              {value}
+            </div>
           </div>
-        )}
-      </div>
 
-      <div className="flex items-baseline justify-between gap-2">
-        <div className="text-2xl lg:text-3xl font-bold font-display text-slate-100 dark:text-slate-100 light:text-slate-900 tracking-tight">
-          {value}
+          {icon && (
+            <div className="w-10 h-10 rounded-xl bg-dark-surface border border-dark-border/80 flex items-center justify-center text-slate-300 dark:bg-dark-surface dark:border-dark-border/80 dark:text-slate-300 light:bg-slate-100 light:border-slate-200 light:text-slate-700 flex-shrink-0">
+              {icon}
+            </div>
+          )}
         </div>
-        {changePercent !== undefined && (
-          <ReturnBadge value={changePercent} percent={true} />
-        )}
-      </div>
 
-      {(subtext || change !== undefined) && (
-        <div className="mt-2 text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 flex items-center justify-between">
-          <span>{subtext || (change !== undefined ? `${change >= 0 ? '+' : ''}$${Math.abs(change).toLocaleString()} today` : '')}</span>
-        </div>
-      )}
+        <div className="mt-4 pt-3 border-t border-dark-border/40 dark:border-dark-border/40 light:border-slate-100 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            {(changePercent !== undefined || change !== undefined) && (
+              <ReturnBadge value={changePercent ?? change ?? 0} />
+            )}
+            {subtext && (
+              <span className="type-caption text-slate-400 dark:text-slate-400 light:text-slate-500 truncate">
+                {subtext}
+              </span>
+            )}
+          </div>
 
-      {sparkline && sparkline.length > 1 && (
-        <div className="mt-4 h-9 w-full">
-          <svg className="w-full h-full overflow-visible" viewBox="0 0 100 30" preserveAspectRatio="none">
-            {/* Draw Sparkline line */}
-            <motion.path
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              d={createSparklineD(sparkline)}
-              fill="none"
-              stroke="#10b981"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          {sparkline && renderSparkline()}
         </div>
-      )}
-    </Card>
+      </Card>
+    </motion.div>
   );
 };
-
-function createSparklineD(points: number[]): string {
-  const min = Math.min(...points);
-  const max = Math.max(...points);
-  const range = max - min || 1;
-
-  return points
-    .map((val, idx) => {
-      const x = (idx / (points.length - 1)) * 100;
-      const y = 30 - ((val - min) / range) * 25 - 2;
-      return `${idx === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
-    })
-    .join(' ');
-}
