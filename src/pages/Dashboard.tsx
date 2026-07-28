@@ -75,18 +75,18 @@ export const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Executive Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-6 border-brand-500/30">
+    <div className="space-y-8" role="region" aria-label="Executive Wealth Overview Dashboard">
+      {/* Executive Hero Banner Container */}
+      <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-1">
             <Badge variant="brand" size="sm">UHNW Wealth Engine</Badge>
-            <span className="type-caption font-mono">Live Session • 256-bit Hardware Encrypted</span>
+            <span className="type-caption font-mono">Live Session • 256-bit Encrypted</span>
           </div>
-          <h1 className="type-heading-xl text-slate-100 dark:text-slate-100 light:text-slate-900">
+          <h1 className="type-display-l text-slate-100 dark:text-slate-100 light:text-slate-900">
             Executive Wealth Overview
           </h1>
-          <p className="type-body text-slate-400 dark:text-slate-400 light:text-slate-600">
+          <p className="type-body-l text-slate-300 dark:text-slate-300 light:text-slate-700">
             Welcome back, {user.name}. Your total net worth is performing <span className="font-bold text-emerald-400">+4.4% ahead</span> of S&P 500 benchmark.
           </p>
         </div>
@@ -96,7 +96,8 @@ export const Dashboard: React.FC = () => {
             variant="ai"
             size="md"
             onClick={executeRebalance}
-            leftIcon={<Sparkles className="w-4 h-4" />}
+            leftIcon={<Sparkles className="w-4 h-4" aria-hidden="true" />}
+            aria-label="Trigger AI Rebalance"
           >
             One-Click Rebalance
           </Button>
@@ -104,21 +105,22 @@ export const Dashboard: React.FC = () => {
             variant="primary"
             size="md"
             onClick={() => navigate('/trading')}
-            leftIcon={<ArrowUpRight className="w-4 h-4" />}
+            leftIcon={<ArrowUpRight className="w-4 h-4" aria-hidden="true" />}
+            aria-label="Navigate to Trading Desk"
           >
             Execute Order
           </Button>
         </div>
       </div>
 
-      {/* KPI Cards Grid — Dominant Numbers */}
+      {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title="Total Net Worth"
           value={formatCurrency(totalPortfolioValue)}
           changePercent={todaysReturnPercent}
           subtext="vs yesterday"
-          icon={<Wallet className="w-5 h-5 text-emerald-400" />}
+          icon={<Wallet className="w-5 h-5 text-emerald-400" aria-hidden="true" />}
           sparkline={[1180000, 1195000, 1210000, 1205000, 1230000, 1248590]}
           glowing
         />
@@ -128,7 +130,7 @@ export const Dashboard: React.FC = () => {
           value={formatCurrency(todaysReturn)}
           changePercent={todaysReturnPercent}
           subtext="24h PnL"
-          icon={<TrendingUp className="w-5 h-5 text-brand-400" />}
+          icon={<TrendingUp className="w-5 h-5 text-emerald-400" aria-hidden="true" />}
           sparkline={[12000, 14500, 9800, 11200, 14320]}
         />
 
@@ -137,7 +139,7 @@ export const Dashboard: React.FC = () => {
           value={formatCurrency(totalReturn)}
           changePercent={totalReturnPercent}
           subtext="All-time Cost Basis"
-          icon={<Award className="w-5 h-5 text-purple-400" />}
+          icon={<Award className="w-5 h-5 text-purple-400" aria-hidden="true" />}
           sparkline={[290000, 310000, 325000, 340000, 348590]}
         />
 
@@ -145,7 +147,7 @@ export const Dashboard: React.FC = () => {
           title="Available Cash Reserve"
           value={formatCurrency(user.cashBalance)}
           subtext="Yielding 4.95% APY"
-          icon={<Wallet className="w-5 h-5 text-amber-400" />}
+          icon={<Wallet className="w-5 h-5 text-amber-400" aria-hidden="true" />}
           variant="solid"
         />
       </div>
@@ -162,25 +164,28 @@ export const Dashboard: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setShowBenchmark(!showBenchmark)}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-colors cursor-pointer ${
                   showBenchmark
                     ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
-                    : 'bg-dark-surface text-slate-400 border-dark-border hover:text-white'
+                    : 'bg-dark-surface1 text-slate-400 border-white/10 hover:text-white'
                 }`}
+                aria-pressed={showBenchmark}
+                aria-label="Toggle Benchmark display"
               >
                 Benchmark
               </button>
 
-              <div className="flex bg-dark-surface p-1 rounded-xl border border-dark-border/80">
+              <div className="flex bg-dark-surface1 p-1 rounded-xl border border-white/10" role="toolbar" aria-label="Chart Timeframe Selectors">
                 {(['1D', '1W', '1M', 'YTD', '1Y', 'ALL'] as const).map((t) => (
                   <button
                     key={t}
                     onClick={() => setTimeframe(t)}
                     className={`px-2.5 py-1 text-xs font-bold font-mono rounded-lg transition-colors cursor-pointer ${
                       timeframe === t
-                        ? 'bg-brand-500 text-white shadow-emerald-glow'
+                        ? 'bg-brand-500 text-slate-950 shadow-emerald-glow'
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
+                    aria-selected={timeframe === t}
                   >
                     {t}
                   </button>
@@ -189,7 +194,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </CardHeader>
 
-          <div className="p-6 h-80">
+          <div className="p-6 h-80" role="img" aria-label="Line chart showing portfolio net worth over time compared against S&P 500 benchmark">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={performanceData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
@@ -205,14 +210,14 @@ export const Dashboard: React.FC = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
                 <XAxis
                   dataKey="date"
-                  stroke="#64748b"
+                  stroke="#94a3b8"
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
                   className="font-mono"
                 />
                 <YAxis
-                  stroke="#64748b"
+                  stroke="#94a3b8"
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
@@ -256,7 +261,7 @@ export const Dashboard: React.FC = () => {
           </CardHeader>
 
           <div className="p-6 flex flex-col items-center justify-center">
-            <div className="h-52 w-full">
+            <div className="h-52 w-full" role="img" aria-label="Pie chart showing asset allocation across Tech, Crypto, ETFs, Bonds, and Cash">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -277,11 +282,11 @@ export const Dashboard: React.FC = () => {
               </ResponsiveContainer>
             </div>
 
-            <div className="w-full space-y-2 mt-4 pt-4 border-t border-dark-border/40">
+            <div className="w-full space-y-2 mt-4 pt-4 border-t border-white/10">
               {allocationData.map((item) => (
                 <div key={item.name} className="flex items-center justify-between text-xs font-mono-nums">
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} aria-hidden="true" />
                     <span className="type-caption text-slate-300 dark:text-slate-300 light:text-slate-700">{item.name}</span>
                   </div>
                   <span className="font-bold text-slate-100 dark:text-slate-100 light:text-slate-900">{formatCurrency(item.value)}</span>
@@ -297,7 +302,7 @@ export const Dashboard: React.FC = () => {
         <Card variant="ai" className="lg:col-span-2">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5 text-ai-400 animate-pulse" />
+              <Bot className="w-5 h-5 text-purple-400 animate-pulse" aria-hidden="true" />
               <CardTitle>Neural Strategy Stream</CardTitle>
             </div>
             <Badge variant="ai" size="sm">Real-Time Diagnostics</Badge>
@@ -307,7 +312,7 @@ export const Dashboard: React.FC = () => {
             {aiInsights.map((insight) => (
               <div
                 key={insight.id}
-                className="p-4 rounded-xl bg-dark-card/90 border border-dark-border flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="p-4 rounded-xl bg-dark-surface2 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -324,13 +329,15 @@ export const Dashboard: React.FC = () => {
                     variant="ai"
                     size="sm"
                     onClick={executeRebalance}
-                    leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+                    leftIcon={<RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />}
+                    aria-label={`Apply action for ${insight.title}`}
                   >
                     Apply Action
                   </Button>
                   <button
                     onClick={() => dismissInsight(insight.id)}
-                    className="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 cursor-pointer"
+                    className="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 rounded"
+                    aria-label={`Dismiss ${insight.title}`}
                   >
                     Dismiss
                   </button>
@@ -348,7 +355,7 @@ export const Dashboard: React.FC = () => {
           </CardHeader>
 
           <div className="p-6">
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3" role="table" aria-label="Monthly Returns Table">
               {monthlyHeatmap.map((item) => (
                 <div
                   key={item.month}
@@ -357,6 +364,7 @@ export const Dashboard: React.FC = () => {
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
                       : 'bg-red-500/10 border-red-500/30 text-red-400'
                   }`}
+                  role="cell"
                 >
                   <span className="type-overline text-slate-400 font-bold">{item.month}</span>
                   <span className="font-mono font-bold text-xs font-mono-nums">
@@ -366,7 +374,7 @@ export const Dashboard: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-dark-border/40 flex items-center justify-between text-xs text-slate-400">
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
               <span>Avg Monthly Alpha:</span>
               <span className="font-mono font-bold text-emerald-400">+2.70%</span>
             </div>
@@ -375,9 +383,9 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Mandatory Portfolio FinTech Legal Disclaimer */}
-      <div className="p-4 rounded-xl bg-dark-card/60 border border-dark-border/60 flex items-center gap-3 text-xs text-slate-400">
-        <ShieldAlert className="w-4 h-4 text-amber-400 flex-shrink-0" />
-        <p className="type-caption leading-relaxed">
+      <div className="p-4 rounded-xl bg-dark-surface2 border border-white/10 flex items-center gap-3 text-xs text-slate-300">
+        <ShieldAlert className="w-4 h-4 text-amber-400 flex-shrink-0" aria-hidden="true" />
+        <p className="type-caption leading-relaxed text-slate-300">
           AlphaVest is a conceptual enterprise FinTech product created for UX/UI portfolio purposes. It does not provide financial services, execute live trades, or offer investment advice.
         </p>
       </div>

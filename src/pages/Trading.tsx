@@ -59,34 +59,37 @@ export const Trading: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-6 border-brand-500/30">
+    <div className="space-y-8" role="region" aria-label="Enterprise Trading Desk">
+      {/* Hero Banner Panel */}
+      <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Badge variant="brand" size="sm">Smart Router Engine</Badge>
-            <span className="text-xs text-slate-400 font-mono">Zero-Latency Execution</span>
+            <span className="type-caption font-mono">Zero-Latency Execution</span>
           </div>
-          <h1 className="text-2xl font-bold font-display text-slate-100">Enterprise Trading Desk</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="type-display-l text-slate-100">Enterprise Trading Desk</h1>
+          <p className="type-body-l text-slate-300 mt-1">
             Direct market access with AI slippage protection and automated liquidity routing.
           </p>
         </div>
 
         <div className="text-right">
-          <span className="text-xs text-slate-400 font-semibold block">Available Cash Reserve</span>
-          <span className="text-xl font-bold font-mono text-emerald-400">{formatCurrency(user.cashBalance)}</span>
+          <span className="type-caption font-semibold block text-slate-300">Available Cash Reserve</span>
+          <span className="text-xl font-bold font-mono font-mono-nums text-emerald-400">{formatCurrency(user.cashBalance)}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card variant="glass" className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Order Entry & Configuration</CardTitle>
-            <CardDescription>Configure position sizing and order routing parameters</CardDescription>
+            <div>
+              <CardTitle>Order Entry & Configuration</CardTitle>
+              <CardDescription>Configure position sizing and order routing parameters</CardDescription>
+            </div>
           </CardHeader>
 
-          <div className="space-y-6">
-            <div className="grid grid-cols-3 gap-2 p-1 bg-dark-surface rounded-xl border border-dark-border">
+          <div className="p-6 space-y-6">
+            <div className="grid grid-cols-3 gap-2 p-1 bg-dark-surface1 rounded-xl border border-white/10" role="tablist" aria-label="Order Mode">
               {(['BUY', 'SELL', 'SWAP'] as const).map((mode) => (
                 <button
                   key={mode}
@@ -94,12 +97,14 @@ export const Trading: React.FC = () => {
                   className={`py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                     side === mode
                       ? mode === 'BUY'
-                        ? 'bg-emerald-500 text-white shadow-emerald-glow'
+                        ? 'bg-emerald-500 text-slate-950 shadow-emerald-glow font-extrabold'
                         : mode === 'SELL'
-                        ? 'bg-red-600 text-white'
-                        : 'bg-purple-600 text-white'
-                      : 'text-slate-400 hover:text-slate-200'
+                        ? 'bg-red-600 text-white font-extrabold'
+                        : 'bg-purple-600 text-white font-extrabold'
+                      : 'text-slate-300 hover:text-white'
                   }`}
+                  role="tab"
+                  aria-selected={side === mode}
                 >
                   {mode}
                 </button>
@@ -107,16 +112,17 @@ export const Trading: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label htmlFor="ticker-select" className="type-overline block text-slate-300 mb-1.5">
                 Select Asset Ticker
               </label>
               <select
+                id="ticker-select"
                 value={selectedSymbol}
                 onChange={(e) => setSelectedSymbol(e.target.value)}
                 className="glass-input w-full px-4 py-2.5 text-sm font-bold font-mono"
               >
                 {assets.map((a) => (
-                  <option key={a.symbol} value={a.symbol} className="bg-dark-surface text-slate-100">
+                  <option key={a.symbol} value={a.symbol} className="bg-dark-surface1 text-slate-100">
                     {a.symbol} — {a.name} (${a.price.toFixed(2)})
                   </option>
                 ))}
@@ -124,7 +130,7 @@ export const Trading: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label className="type-overline block text-slate-300 mb-1.5">
                 Execution Routing Type
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -132,11 +138,12 @@ export const Trading: React.FC = () => {
                   <button
                     key={type}
                     onClick={() => setOrderType(type)}
-                    className={`py-2 px-3 text-xs font-semibold rounded-xl border transition-colors cursor-pointer ${
+                    className={`py-2 px-3 text-xs font-bold rounded-xl border transition-colors cursor-pointer ${
                       orderType === type
-                        ? 'bg-brand-500/20 text-brand-400 border-brand-500/40 font-bold'
-                        : 'bg-dark-surface text-slate-400 border-dark-border hover:text-white'
+                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 font-extrabold'
+                        : 'bg-dark-surface1 text-slate-300 border-white/10 hover:text-white'
                     }`}
+                    aria-selected={orderType === type}
                   >
                     {type.replace('_', ' ')}
                   </button>
@@ -165,7 +172,7 @@ export const Trading: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Position Preset:</span>
+              <span className="type-caption text-slate-300">Position Preset:</span>
               {[25, 50, 75, 100].map((pct) => (
                 <button
                   key={pct}
@@ -178,14 +185,15 @@ export const Trading: React.FC = () => {
                       setQuantity(maxHolding.toFixed(2));
                     }
                   }}
-                  className="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-lg bg-dark-card border border-dark-border text-slate-300 hover:text-white hover:border-brand-500/40 cursor-pointer"
+                  className="px-2.5 py-1 text-[11px] font-mono font-bold rounded-lg bg-dark-surface2 border border-white/10 text-slate-300 hover:text-white hover:border-emerald-500/40 cursor-pointer"
+                  aria-label={`Set position size to ${pct}%`}
                 >
                   {pct}%
                 </button>
               ))}
             </div>
 
-            <div className="p-4 rounded-xl bg-dark-card border border-dark-border space-y-2 text-xs">
+            <div className="p-4 rounded-xl bg-dark-surface2 border border-white/10 space-y-2 text-xs">
               <div className="flex justify-between text-slate-300">
                 <span>Estimated Market Price:</span>
                 <span className="font-mono font-bold text-slate-100">{formatCurrency(executionPrice)}</span>
@@ -206,7 +214,8 @@ export const Trading: React.FC = () => {
               fullWidth
               onClick={handleOrderSubmit}
               disabled={numQty <= 0}
-              leftIcon={<ArrowLeftRight className="w-4 h-4" />}
+              leftIcon={<ArrowLeftRight className="w-4 h-4" aria-hidden="true" />}
+              aria-label={`Review ${side} order for ${selectedAsset.symbol}`}
             >
               Review {side} Order for {selectedAsset.symbol}
             </Button>
@@ -215,30 +224,32 @@ export const Trading: React.FC = () => {
 
         <Card variant="glass">
           <CardHeader>
-            <CardTitle>Live Order Book</CardTitle>
-            <CardDescription>Simulated Level II market depth</CardDescription>
+            <div>
+              <CardTitle>Live Order Book</CardTitle>
+              <CardDescription>Simulated Level II market depth</CardDescription>
+            </div>
           </CardHeader>
 
-          <div className="space-y-4 text-xs font-mono">
-            <div className="space-y-1">
-              <span className="text-[10px] uppercase font-semibold text-red-400">Asks (Sell Orders)</span>
+          <div className="p-6 space-y-4 text-xs font-mono font-mono-nums">
+            <div className="space-y-1" role="region" aria-label="Asks Sell Orders">
+              <span className="type-overline text-red-400 font-bold block">Asks (Sell Orders)</span>
               {mockAsks.map((ask, i) => (
-                <div key={i} className="flex justify-between py-1 px-2 rounded bg-red-500/5 text-red-300">
+                <div key={i} className="flex justify-between py-1 px-2 rounded bg-red-500/10 text-red-300">
                   <span>${ask.price}</span>
                   <span>{ask.qty} shares</span>
                 </div>
               ))}
             </div>
 
-            <div className="py-2 border-y border-dark-border flex justify-between items-center font-bold text-slate-100">
+            <div className="py-2 border-y border-white/10 flex justify-between items-center font-bold text-slate-100">
               <span>Spread / Mid:</span>
               <span className="text-emerald-400">${selectedAsset.price.toFixed(2)}</span>
             </div>
 
-            <div className="space-y-1">
-              <span className="text-[10px] uppercase font-semibold text-emerald-400">Bids (Buy Orders)</span>
+            <div className="space-y-1" role="region" aria-label="Bids Buy Orders">
+              <span className="type-overline text-emerald-400 font-bold block">Bids (Buy Orders)</span>
               {mockBids.map((bid, i) => (
-                <div key={i} className="flex justify-between py-1 px-2 rounded bg-emerald-500/5 text-emerald-300">
+                <div key={i} className="flex justify-between py-1 px-2 rounded bg-emerald-500/10 text-emerald-300">
                   <span>${bid.price}</span>
                   <span>{bid.qty} shares</span>
                 </div>
@@ -255,8 +266,8 @@ export const Trading: React.FC = () => {
         description="Verify transaction parameters before submitting to router"
       >
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-dark-card border border-dark-border space-y-3 text-xs">
-            <div className="flex justify-between border-b border-dark-border/40 pb-2">
+          <div className="p-4 rounded-xl bg-dark-surface2 border border-white/10 space-y-3 text-xs">
+            <div className="flex justify-between border-b border-white/10 pb-2">
               <span className="text-slate-400">Action & Asset:</span>
               <span className="font-bold text-slate-100">{side} {selectedAsset.symbol}</span>
             </div>
@@ -268,7 +279,7 @@ export const Trading: React.FC = () => {
               <span className="text-slate-400">Price per Unit:</span>
               <span className="font-mono text-slate-100">${executionPrice.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between border-t border-dark-border/40 pt-2 font-bold">
+            <div className="flex justify-between border-t border-white/10 pt-2 font-bold">
               <span className="text-slate-200">Total Settlement:</span>
               <span className="font-mono text-emerald-400">{formatCurrency(estimatedTotal)}</span>
             </div>
@@ -288,7 +299,7 @@ export const Trading: React.FC = () => {
               size="md"
               fullWidth
               onClick={handleConfirmOrder}
-              leftIcon={<CheckCircle2 className="w-4 h-4" />}
+              leftIcon={<CheckCircle2 className="w-4 h-4" aria-hidden="true" />}
             >
               Authorize & Confirm
             </Button>

@@ -32,12 +32,14 @@ export const Portfolio: React.FC = () => {
               e.stopPropagation();
               toggleWatchlist(asset.symbol);
             }}
-            className="text-slate-500 hover:text-amber-400 cursor-pointer"
+            className="text-slate-500 hover:text-amber-400 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 rounded p-0.5"
+            aria-label={`Toggle ${asset.symbol} in watchlist`}
           >
             <Star
               className={`w-4 h-4 ${
                 watchlist.includes(asset.symbol) ? 'fill-amber-400 text-amber-400' : ''
               }`}
+              aria-hidden="true"
             />
           </button>
           <div>
@@ -45,7 +47,7 @@ export const Portfolio: React.FC = () => {
               <span className="font-mono font-bold text-slate-100 dark:text-slate-100 light:text-slate-900">{asset.symbol}</span>
               <Badge variant="neutral" size="sm">{asset.category}</Badge>
             </div>
-            <span className="type-caption text-slate-400 dark:text-slate-400 light:text-slate-500 block truncate">{asset.name}</span>
+            <span className="type-caption text-slate-300 dark:text-slate-300 light:text-slate-500 block truncate">{asset.name}</span>
           </div>
         </div>
       ),
@@ -107,7 +109,8 @@ export const Portfolio: React.FC = () => {
             e.stopPropagation();
             navigate(`/trading?symbol=${asset.symbol}`);
           }}
-          leftIcon={<ArrowLeftRight className="w-3.5 h-3.5" />}
+          leftIcon={<ArrowLeftRight className="w-3.5 h-3.5" aria-hidden="true" />}
+          aria-label={`Trade ${asset.symbol}`}
         >
           Trade
         </Button>
@@ -116,12 +119,12 @@ export const Portfolio: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-6 border-brand-500/30">
+    <div className="space-y-8" role="region" aria-label="Portfolio Holdings">
+      {/* Hero Banner Panel */}
+      <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="type-heading-xl text-slate-100">Portfolio Holdings & Positions</h1>
-          <p className="type-body text-slate-400 mt-1">
+          <h1 className="type-display-l text-slate-100">Portfolio Holdings & Positions</h1>
+          <p className="type-body-l text-slate-300 mt-1">
             Real-time asset telemetry across {assets.length} core institutional positions. Total Valuation: <span className="font-mono font-bold text-emerald-400">{formatCurrency(totalPortfolioValue)}</span>
           </p>
         </div>
@@ -130,23 +133,26 @@ export const Portfolio: React.FC = () => {
           variant="ai"
           size="md"
           onClick={executeRebalance}
-          leftIcon={<Sparkles className="w-4 h-4" />}
+          leftIcon={<Sparkles className="w-4 h-4" aria-hidden="true" />}
+          aria-label="Auto-rebalance portfolio"
         >
           Auto-Rebalance
         </Button>
       </div>
 
-      {/* Category Tabs */}
-      <div className="flex flex-wrap items-center gap-2">
+      {/* Category Filter Tabs */}
+      <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Asset Category Filter">
         {(['ALL', 'STOCKS', 'CRYPTO', 'ETFS', 'BONDS', 'CASH'] as const).map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
+            className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 ${
               selectedCategory === cat
-                ? 'bg-brand-500 text-white border-brand-500 shadow-emerald-glow'
-                : 'bg-dark-card border-dark-border text-slate-400 hover:text-white'
+                ? 'bg-brand-500 text-slate-950 border-brand-500 shadow-emerald-glow'
+                : 'bg-dark-surface2 border-white/10 text-slate-300 hover:text-white'
             }`}
+            role="tab"
+            aria-selected={selectedCategory === cat}
           >
             {cat}
           </button>
