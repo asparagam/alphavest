@@ -59,7 +59,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   ...props
 }) => (
   <h3
-    className={twMerge('type-heading-m font-bold text-slate-100 dark:text-slate-100 light:text-slate-900', className)}
+    className={twMerge('type-heading-m font-bold text-slate-900 dark:text-white', className)}
     {...props}
   >
     {children}
@@ -72,7 +72,7 @@ export const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement
   ...props
 }) => (
   <p
-    className={twMerge('type-caption text-slate-400 dark:text-slate-400 light:text-slate-600 mt-0.5 sm:mt-1', className)}
+    className={twMerge('type-caption text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1', className)}
     {...props}
   >
     {children}
