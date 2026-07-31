@@ -3,7 +3,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { useNotifications } from '../context/NotificationContext';
-import { FileText, Download } from 'lucide-react';
+import { FileText, Download, ShieldCheck } from 'lucide-react';
 
 export const Reports: React.FC = () => {
   const { addToast } = useNotifications();
@@ -51,39 +51,63 @@ export const Reports: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8" role="region" aria-label="Financial Reports">
-      {/* Hero Panel */}
-      <div className="hero-panel">
-        <div className="flex items-center gap-2 mb-1">
-          <Badge variant="brand" size="sm">Audited Reporting</Badge>
-          <span className="type-caption font-mono">SOC2 Type II Certified</span>
+    <div className="space-y-8" role="region" aria-label="Financial Reports & Audited Statements">
+      {/* Hero Panel Header */}
+      <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <Badge variant="brand" size="sm" icon={<ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}>
+              Audited Reporting
+            </Badge>
+            <span className="type-caption font-mono font-medium">SOC2 Type II Certified</span>
+          </div>
+          <h1 className="type-display-l text-slate-900 dark:text-white">Financial Reports & Tax Statements</h1>
+          <p className="type-body-l text-slate-700 dark:text-slate-300 mt-1">
+            Download institutional audit statements, 1099-B tax harvesting logs, and ESG compliance reports.
+          </p>
         </div>
-        <h1 className="type-display-l text-slate-100">Financial Reports & Tax Statements</h1>
-        <p className="type-body-l text-slate-300 mt-1">
-          Download institutional audit statements, 1099-B tax harvesting logs, and ESG compliance reports.
-        </p>
       </div>
 
-      {/* Responsive Grid: 4 cols (Desktop) -> 2 cols (Tablet) -> 1 col (Mobile) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Responsive Report Cards Grid with standardized 12px gap (gap-3) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {reportsList.map((rep) => (
-          <Card key={rep.id} variant="glass" className="p-6 flex flex-col justify-between space-y-4">
-            <div className="space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0">
+          <Card
+            key={rep.id}
+            variant="glass"
+            className="p-6 flex flex-col justify-between h-full border border-slate-200 dark:border-white/10 bg-white dark:bg-dark-card shadow-card-light dark:shadow-card-elevated"
+          >
+            {/* Upper Content Section */}
+            <div>
+              {/* Document Icon (16px spacing below -> mb-4) */}
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0 mb-4">
                 <FileText className="w-5 h-5" aria-hidden="true" />
               </div>
-              <div>
-                <h3 className="type-heading-m font-bold text-slate-100">{rep.title}</h3>
-                <div className="flex items-center gap-2 mt-2 flex-wrap">
-                  <Badge variant="neutral" size="sm">{rep.category}</Badge>
-                  <span className="type-caption text-slate-400 font-mono">{rep.date}</span>
-                </div>
+
+              {/* Report Title (12px spacing below -> mb-3, line-height 1.3) */}
+              <h3 className="type-heading-m font-extrabold text-slate-900 dark:text-white leading-snug mb-3 line-clamp-2">
+                {rep.title}
+              </h3>
+
+              {/* Category Badge (12px spacing below -> mb-3) */}
+              <div className="mb-3">
+                <Badge variant="neutral" size="sm">{rep.category}</Badge>
+              </div>
+
+              {/* Date Metadata (24px spacing below -> mb-6) */}
+              <div className="mb-6">
+                <span className="type-caption text-slate-700 dark:text-slate-400 font-mono font-medium">
+                  {rep.date}
+                </span>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t border-white/10 gap-3 text-xs">
-              <span className="type-caption text-slate-400 font-mono">Size: {rep.size}</span>
+            {/* Lower Download Actions Baseline Section (Divider + 20px top padding -> pt-5) */}
+            <div className="pt-5 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <span className="type-caption text-slate-700 dark:text-slate-400 font-mono font-extrabold flex-shrink-0">
+                {rep.size}
+              </span>
 
+              {/* PDF & CSV Download Buttons Group */}
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Button
                   variant="outline"
