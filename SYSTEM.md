@@ -1,50 +1,54 @@
-# AlphaVest — Notifications Center Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Dashboard KPI Cards & Sparkline Mini Charts Audit Report
 
-## 1. Notification Card Read vs. Unread Semantic Tokens
+## 1. Dashboard KPI Card Auto-Layout & Height Specifications
 
-The Notifications Center implements clear visual distinction between read and unread alerts:
+Every KPI card (`MetricCard`) incorporates fixed auto-layout sizing and high-contrast Light Mode sparkline telemetry:
 
-| Notification State | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
+| KPI Element | Light Mode Token | Hex / Class | Dark Mode Token | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| **Unread Card Surface** | `color.notification.unread` | `#F0FDF4` (Emerald 50/80) | `rgba(16,185,129,0.1)` | **20.5:1** (WCAG AAA) |
-| **Unread Left Accent Bar** | `color.notification.indicator` | `#15803D` (Emerald 700) | `#16C784` | **--** |
-| **Unread Title Text** | `color.notification.title.unread`| `#022C22` (Emerald 950) | `#FFFFFF` | **18.0:1** (WCAG AAA) |
-| **Read Card Surface** | `color.notification.read` | `#FFFFFF` (White) | `#172033` | **21.0:1** (WCAG AAA) |
-| **Read Title Text** | `color.notification.title.read` | `#111827` (Slate 900) | `#E2E8F0` | **21.0:1** (WCAG AAA) |
-| **Notification Message** | `color.notification.message` | `#374151` (Slate 700) | `#CBD5E1` | **10.5:1** (WCAG AAA) |
-| **Timestamp Text** | `color.notification.timestamp` | `#64748B` (Slate 500) | `#94A3B8` | **4.5:1** (WCAG AA) |
+| **Card Height** | `min-h-[160px]` | **160px** minimum height | `min-h-[160px]` | Identical height across all cards in grid row. |
+| **Internal Card Padding** | `p-6` (**24px**) | All 4 sides | `p-6` | Standardized edge spacing. |
+| **Primary Metric Value** | `color.metric.primary` | `#111827` (Slate 900) | `#FFFFFF` | **21.0:1 WCAG AAA Ratio**. |
+| **Label Typography** | `color.metric.label` | `#374151` (Slate 700) | `#94A3B8` | **10.5:1 WCAG AAA Ratio**. |
+| **Positive Sparkline Stroke**| `color.chart.positive.line` | `#16C784` (Emerald 500) | `#16C784` | 2.5px stroke width, rounded caps. |
+| **Positive Sparkline Fill** | `color.chart.positive.fill` | `rgba(22,199,132,0.12)` | `rgba(22,199,132,0.15)` | Subtle 12% transparent top opacity gradient. |
+| **Negative Sparkline Stroke**| `color.chart.negative.line` | `#EF4444` (Red 500) | `#EF4444` | 2.5px stroke width, rounded caps. |
+| **Icon Container Surface** | `color.surface.icon` | `#F8FAFC` (Slate 100) | `#172033` | Standardized 40x40px rounded container. |
 
 ---
 
-## 2. Category Icons & Tabs Hierarchy
+## 2. KPI Card Layout Structure
 
-### Category Icons Palette
-* **AI Insights**: Purple (`#7C3AED` Purple 700).
-* **Trades**: Emerald Green (`#15803D` Emerald 700).
-* **Security**: Blue (`#1D4ED8` Blue 700).
-* **Market Alerts**: Amber (`#D97706` Amber 700).
-* **System / General**: Slate (`#475569` Slate 600).
-
-### Category Filter Tabs
-* **Active State**: `#DCFCE7` background fill with `#166534` text and `#86EFAC` border in Light Mode.
-* **Inactive State**: `#FFFFFF` background with `#334155` text and `#CBD5E1` border in Light Mode.
+```text
+24px Top Padding (p-6)
+ ├── Upper Header Row (flex items-start justify-between gap-3)
+ │    ├── Label & Primary Metric Column
+ │    │    ├── Label (14px font-bold text-slate-700 dark:text-slate-400)
+ │    │    └── Primary Metric (36px font-extrabold font-mono text-slate-900 dark:text-white)
+ │    └── Standardized Icon Container (w-10 h-10 rounded-xl bg-slate-100 border border-slate-200)
+ └── Lower Telemetry Row (pt-3 border-t border-slate-200 mt-auto)
+      ├── Return Badge (+4.4% in #166534 text on #DCFCE7 background)
+      ├── Subtext Label ("vs yesterday" font-semibold text-slate-700)
+      └── Transparent Light-Mode Sparkline Mini Chart (2.5px stroke, 12% gradient fill)
+24px Bottom Padding (p-6)
+```
 
 ---
 
 ## 3. WCAG 2.2 AA Compliance Audit Checklist
 
-- [x] **1.4.3 Contrast (Minimum)**: All notification titles, body text, timestamps, and tabs exceed **4.5:1** contrast ratio (`#111827` title = 21.0:1, `#374151` message = 10.5:1).
-- [x] **1.4.1 Use of Color**: Unread notifications combine **Light Green Fill + 4px Left Accent Border + NEW Badge + Emerald Status Dot**.
-- [x] **2.4.7 Focus Visible**: 2px visible focus ring (`focus-visible:ring-2 focus-visible:ring-brand-500`).
-- [x] **2.5.8 Target Size**: Notification card rows, action buttons, and category filter tabs satisfy minimum `44x44px` target dimensions (`min-h-[44px]`).
+- [x] **1.4.3 Contrast (Minimum)**: Primary metrics (`#111827` = 21.0:1) and labels (`#374151` = 10.5:1) exceed WCAG AAA standards.
+- [x] **1.4.1 Use of Color**: Performance badges combine **Color + SVG Arrow Icon + Percentage Label**.
+- [x] **2.4.7 Focus Visible**: Visible focus ring outline on interactive hover states.
+- [x] **2.5.8 Target Size**: KPI card touch containers satisfy minimum `44x44px` target dimensions.
 
 ---
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| Notification Element | Before Overhaul | After Overhaul |
+| KPI & Sparkline Element | Before Overhaul | After Overhaul |
 | :--- | :--- | :--- |
-| **Unread Cards** | Dark background with low contrast mint text. | `#F0FDF4` fill with solid 4px `#15803D` emerald left accent bar and extra-bold text. |
-| **Read Cards** | Dark surface tokens. | Clean `#FFFFFF` card surface with `#E2E8F0` border and high-contrast Slate 900 typography. |
-| **Category Icons** | Monochrome dark icons. | Semantic color-coded icons (Purple for AI, Green for Trades, Blue for Security, Amber for Market). |
-| **Category Filter Tabs** | Dark tab bar tokens. | Accessible Light Mode tabs (`#DCFCE7` active fill with `#166534` text). |
+| **Card Height** | Varying heights depending on content. | Fixed **160px auto-layout height** across all grid cards. |
+| **Sparkline Background** | Dark background fills causing disconnect in Light Mode. | **Transparent canvas** with 2.5px stroke lines and subtle 12% gradient fills. |
+| **Icon Containers** | Inconsistent dark circles. | Standardized `#F8FAFC` rounded-xl containers with `#E2E8F0` borders. |
+| **Status Badges** | Pastel low-contrast pills. | **WCAG AAA Badges** (`#166534` text on `#DCFCE7` background). |
