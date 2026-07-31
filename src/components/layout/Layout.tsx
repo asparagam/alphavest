@@ -12,7 +12,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [aiCopilotOpen, setAiCopilotOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-dark-base text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F7F8FA] dark:bg-dark-base text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       <div className="flex flex-1">
         <div className="hidden lg:block">
           <Sidebar />
@@ -21,16 +21,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex">
             <div
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+              className="fixed inset-0 bg-slate-900/50 dark:bg-black/70 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <div className="relative z-10 w-64 bg-dark-surface h-full shadow-2xl">
+            <div className="relative z-10 w-64 bg-white dark:bg-dark-surface1 h-full shadow-2xl">
               <Sidebar onClose={() => setMobileMenuOpen(false)} />
             </div>
           </div>
         )}
 
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#F9FAFB] dark:bg-dark-base">
           <TopNavigation
             onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
             onOpenAiCopilot={() => setAiCopilotOpen(true)}
@@ -54,7 +54,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setAiCopilotOpen(true)}
-        className="fixed bottom-6 right-6 z-40 p-3.5 rounded-2xl bg-gradient-to-r from-ai-600 to-accent-600 text-white shadow-purple-glow flex items-center gap-2 font-semibold text-xs border border-ai-400/40 cursor-pointer"
+        className="fixed bottom-6 right-6 z-40 p-3.5 rounded-2xl bg-gradient-to-r from-ai-600 to-accent-600 text-white shadow-purple-glow flex items-center gap-2 font-semibold text-xs border border-purple-400/40 cursor-pointer"
         aria-label="Open AI Copilot Assistant"
       >
         <Bot className="w-5 h-5 animate-pulse" />
