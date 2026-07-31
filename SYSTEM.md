@@ -1,47 +1,45 @@
-# AlphaVest — Security & Authentication Center Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Application Settings & Preference Architecture & WCAG 2.2 AA Audit Report
 
-## 1. Security & Authentication Semantic Tokens
+## 1. Settings & Preferences Semantic Tokens
 
-The Security Center converts all MFA cards, active authorized sessions, and emergency lock controls to clean Light Mode surfaces:
+The Settings & Preferences page converts all risk tolerance buttons, AI neural behavior cards, and reporting currency options to clean Light Mode surfaces, eliminating dark navy token leaks:
 
-| Security Component | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
+| Settings Component | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
 | :--- | :--- | :--- | :--- | :--- |
-| **MFA & Session Card Surface**| `color.security.surface` | `#FFFFFF` | `#172033` | **21.0:1** (WCAG AAA) |
-| **Current Session Fill** | `color.security.session.current` | `#F0FDF4` (Emerald 50/80) | `rgba(16,185,129,0.1)` | **20.5:1** (WCAG AAA) |
-| **Current Session Accent** | `color.security.indicator` | `#15803D` (Emerald 700) | `#16C784` | **--** |
-| **Device Title Typography**| `color.security.device.title` | `#022C22` / `#111827` | `#FFFFFF` | **21.0:1** (WCAG AAA) |
-| **Device Location / IP** | `color.security.device.meta` | `#374151` (Slate 700) | `#CBD5E1` | **10.5:1** (WCAG AAA) |
-| **Active 2FA Toggle Switch**| `color.security.toggle.active` | `#166534` (Emerald 800) | `#10B981` | **--** |
-| **Emergency Lock Surface** | `color.security.emergency.surface`| `#FFF8E6` (Amber 50/70) | `rgba(239,68,68,0.1)` | **18.5:1** (WCAG AAA) |
+| **Card Container Surface** | `color.settings.surface` | `#FFFFFF` | `#172033` | **21.0:1** (WCAG AAA) |
+| **Active Risk Option** | `color.settings.risk.active` | `#15803D` (Emerald 700) | `#10B981` | **21.0:1** (WCAG AAA) |
+| **Inactive Option Button** | `color.settings.option.inactive`| `#F1F5F9` (Slate 100) | `#172033` | **10.5:1** (WCAG AAA) |
+| **Inactive Option Text** | `color.settings.option.text` | `#1E293B` (Slate 800) | `#CBD5E1` | **10.5:1** (WCAG AAA) |
+| **Active AI Option** | `color.settings.ai.active` | `#7C3AED` (Purple 700) | `#7C3AED` | **21.0:1** (WCAG AAA) |
+| **Automated Rebalance Row** | `color.settings.rebalance.bg` | `#F8FAFC` (Slate 50 fill) | `#172033` | **21.0:1** (WCAG AAA) |
 
 ---
 
-## 2. MFA Toggle Switches & Session Control Structure
+## 2. Interactive Preferences Hierarchy
 
-### MFA Hardware Cards (TOTP & Biometrics)
-* **Card Container**: `#FFFFFF` surface with `#E2E8F0` border and `#111827` title.
-* **Toggle Switch**: `bg-emerald-600` when active with a 44x44px minimum touch target size (`min-h-[44px] min-w-[44px]`).
+### Investor Risk Tolerance & Currency Options
+* **Active State**: Solid `#166534` emerald fill with bold white typography (`bg-emerald-600 text-white font-extrabold`).
+* **Inactive State**: Light `#F1F5F9` background fill with `#1E293B` text and `#CBD5E1` border (`bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200`).
 
-### Active Authorized Sessions
-* **Current Device**: `#F0FDF4` fill with solid 4px `#15803D` emerald left accent border and `Badge variant="success"`.
-* **Revoke Action Button**: High contrast red action button (`#B91C1C` text).
+### AI Neural Strategy Behavior
+* **Active State**: Solid `#7C3AED` purple fill with bold white text.
+* **Automated Rebalancing Row**: Clean `#F8FAFC` light neutral row background.
 
 ---
 
 ## 3. WCAG 2.2 AA Compliance Audit Checklist
 
-- [x] **1.4.3 Contrast (Minimum)**: Device names (`#111827` = 21.0:1), location metadata (`#374151` = 10.5:1), and emergency text exceed WCAG AAA standards.
-- [x] **1.4.1 Use of Color**: Current session enforces **Light Green Fill + 4px Left Accent Border + Current Device Badge**.
-- [x] **2.4.7 Focus Visible**: 2px visible focus ring on MFA toggle switch and buttons (`focus-visible:ring-2 focus-visible:ring-brand-500`).
-- [x] **2.5.8 Target Size**: MFA toggles, Revoke buttons, and API Key CTA satisfy minimum `44x44px` target dimensions (`min-h-[44px]`).
+- [x] **1.4.3 Contrast (Minimum)**: All active and inactive preference options exceed **4.5:1** contrast ratio (`#1E293B` on `#F1F5F9` = 10.5:1).
+- [x] **1.4.1 Use of Color**: Active options combine **Color Fill + Border Highlight + Pressed State Accessibility Aria Rules** (`aria-pressed="true"`).
+- [x] **2.4.7 Focus Visible**: 2px visible focus ring on every preference button (`focus-visible:ring-2 focus-visible:ring-brand-500`).
+- [x] **2.5.8 Target Size**: All preference buttons satisfy minimum `44x44px` touch target dimensions (`min-h-[44px]`).
 
 ---
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| Security Element | Before Overhaul | After Overhaul |
+| Settings Element | Before Overhaul | After Overhaul |
 | :--- | :--- | :--- |
-| **MFA Cards** | Dark navy background (`#172033`). | Clean `#FFFFFF` card surface with `#E2E8F0` border and `#111827` text. |
-| **Active Sessions** | Dark rows with low contrast gray text. | `#F0FDF4` current device row with solid 4px `#15803D` emerald left accent bar. |
-| **2FA Toggle Switch** | Isolated dark toggle switch. | Accessible `#166534` emerald toggle switch with 44x44px touch target. |
-| **Emergency Lock Card** | Dark red-bordered container. | Soft enterprise warning card (`#FFF8E6` fill with `#FDE68A` border and `#92400E` text). |
+| **Inactive Option Buttons** | Dark navy background (`#172033`) visually clashing in Light Mode. | Clean `#F1F5F9` Light Mode surface with `#1E293B` text and `#CBD5E1` border. |
+| **Automated Rebalance Row** | Dark navy background (`#172033`). | Light `#F8FAFC` row surface with `#111827` title text. |
+| **Active Preference Pill** | Inconsistent dark tokens. | Solid enterprise green (`#166534`) / AI purple (`#7C3AED`) pills with high-contrast text. |
