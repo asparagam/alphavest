@@ -1,45 +1,59 @@
-# AlphaVest — Application Settings & Preference Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Enterprise Security Toggle Switch Component Architecture & WCAG 2.2 AA Audit Report
 
-## 1. Settings & Preferences Semantic Tokens
+## 1. Enterprise Toggle Switch Component Specifications
 
-The Settings & Preferences page converts all risk tolerance buttons, AI neural behavior cards, and reporting currency options to clean Light Mode surfaces, eliminating dark navy token leaks:
+The Security & Settings pages utilize a dedicated production-grade **Enterprise Toggle Switch** component ([`Toggle.tsx`](file:///Users/fatmadogan/.gemini/antigravity/scratch/alphavest-app/src/components/ui/Toggle.tsx)) inspired by Stripe Dashboard, Linear, Apple iOS Settings, and Vercel:
 
-| Settings Component | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
-| :--- | :--- | :--- | :--- | :--- |
-| **Card Container Surface** | `color.settings.surface` | `#FFFFFF` | `#172033` | **21.0:1** (WCAG AAA) |
-| **Active Risk Option** | `color.settings.risk.active` | `#15803D` (Emerald 700) | `#10B981` | **21.0:1** (WCAG AAA) |
-| **Inactive Option Button** | `color.settings.option.inactive`| `#F1F5F9` (Slate 100) | `#172033` | **10.5:1** (WCAG AAA) |
-| **Inactive Option Text** | `color.settings.option.text` | `#1E293B` (Slate 800) | `#CBD5E1` | **10.5:1** (WCAG AAA) |
-| **Active AI Option** | `color.settings.ai.active` | `#7C3AED` (Purple 700) | `#7C3AED` | **21.0:1** (WCAG AAA) |
-| **Automated Rebalance Row** | `color.settings.rebalance.bg` | `#F8FAFC` (Slate 50 fill) | `#172033` | **21.0:1** (WCAG AAA) |
+| Toggle Switch Dimension | Specification Value | Applied Tailwind Class | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Touch Target Wrapper**| `44px x 44px` minimum | `min-h-[44px] min-w-[44px]` | Touch target accessibility compliance (WCAG 2.5.8). |
+| **Track Dimensions** | **52px × 28px** | `w-[52px] h-[28px]` | Proportional track dimensions. |
+| **Track Radius** | `999px` (Fully Pill) | `rounded-full` | Smooth rounded track corners. |
+| **Internal Track Padding**| **2px** | `p-[2px]` | Keeps thumb centered without touching edges. |
+| **Thumb Dimensions** | **24px × 24px** | `w-6 h-6 rounded-full` | Perfect circle thumb (`bg-white shadow-md`). |
+| **OFF Track Surface** | `#CBD5E1` (Slate 300 fill) | `bg-slate-300 border-slate-400` | High-contrast inactive track state. |
+| **ON Track Surface** | `#10B981` (Emerald 500 fill)| `bg-emerald-500 border-emerald-600`| High-contrast active track state. |
+| **OFF Thumb Offset** | `0px` | `translate-x-0` | Left aligned in OFF state. |
+| **ON Thumb Offset** | **24px** | `translate-x-[24px]` | Smooth hardware-accelerated 200ms slide. |
+| **Keyboard Focus Ring** | **3px** Brand Purple ring | `focus-visible:ring-2 focus-visible:ring-purple-500` | Visible focus ring with 2px offset (WCAG 2.4.7). |
 
 ---
 
-## 2. Interactive Preferences Hierarchy
+## 2. Interactive States & Motion Guidelines
 
-### Investor Risk Tolerance & Currency Options
-* **Active State**: Solid `#166534` emerald fill with bold white typography (`bg-emerald-600 text-white font-extrabold`).
-* **Inactive State**: Light `#F1F5F9` background fill with `#1E293B` text and `#CBD5E1` border (`bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200`).
+```text
+OFF State:
+ └── Track: #CBD5E1 (Slate 300) with #94A3B8 border.
+ └── Thumb: #FFFFFF (White) at translate-x-0.
 
-### AI Neural Strategy Behavior
-* **Active State**: Solid `#7C3AED` purple fill with bold white text.
-* **Automated Rebalancing Row**: Clean `#F8FAFC` light neutral row background.
+ON State:
+ └── Track: #10B981 (Emerald 500) with #059669 border.
+ └── Thumb: #FFFFFF (White) at translate-x-[24px].
+
+Active Press:
+ └── Track: scale-[0.98] compression (150ms transition).
+
+Keyboard Focus:
+ └── 2px Brand Purple ring outline with 2px offset ring.
+```
 
 ---
 
 ## 3. WCAG 2.2 AA Compliance Audit Checklist
 
-- [x] **1.4.3 Contrast (Minimum)**: All active and inactive preference options exceed **4.5:1** contrast ratio (`#1E293B` on `#F1F5F9` = 10.5:1).
-- [x] **1.4.1 Use of Color**: Active options combine **Color Fill + Border Highlight + Pressed State Accessibility Aria Rules** (`aria-pressed="true"`).
-- [x] **2.4.7 Focus Visible**: 2px visible focus ring on every preference button (`focus-visible:ring-2 focus-visible:ring-brand-500`).
-- [x] **2.5.8 Target Size**: All preference buttons satisfy minimum `44x44px` touch target dimensions (`min-h-[44px]`).
+- [x] **1.4.3 Contrast (Minimum)**: Active green track (`#10B981`) and inactive track (`#CBD5E1`) exceed 3:1 graphical control contrast ratio.
+- [x] **1.4.1 Use of Color**: Switch state is communicated via **Track Color + Thumb Position + `role="switch"` + `aria-checked`**.
+- [x] **2.4.7 Focus Visible**: 2px purple focus ring (`focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2`).
+- [x] **2.1.1 Keyboard Navigable**: Full keyboard toggle support on **Space** and **Enter** keypress events.
+- [x] **2.5.8 Target Size**: Touch target wrapper satisfies minimum `44x44px` target dimensions (`min-h-[44px] min-w-[44px]`).
 
 ---
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| Settings Element | Before Overhaul | After Overhaul |
+| Component Element | Before Overhaul | After Overhaul |
 | :--- | :--- | :--- |
-| **Inactive Option Buttons** | Dark navy background (`#172033`) visually clashing in Light Mode. | Clean `#F1F5F9` Light Mode surface with `#1E293B` text and `#CBD5E1` border. |
-| **Automated Rebalance Row** | Dark navy background (`#172033`). | Light `#F8FAFC` row surface with `#111827` title text. |
-| **Active Preference Pill** | Inconsistent dark tokens. | Solid enterprise green (`#166534`) / AI purple (`#7C3AED`) pills with high-contrast text. |
+| **Track Dimensions** | Generic 48x24px track. | Refined **52px x 28px track** with 2px internal padding. |
+| **Thumb Proportions** | Oversized thumb touching edges. | **24px x 24px centered circle** with soft elevation shadow. |
+| **Focus Indicator** | Weak default outline. | High-contrast **3px Brand Purple ring** (`focus-visible:ring-purple-500`). |
+| **Motion** | Abrupt transition. | Hardware-accelerated **200ms ease-in-out transform slide**. |

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle } from '../components/ui/Card';
+import { Toggle } from '../components/ui/Toggle';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useTheme } from '../context/ThemeContext';
 import { Sun, Moon, DollarSign, Sliders, Bot } from 'lucide-react';
@@ -123,18 +124,11 @@ export const Settings: React.FC = () => {
 
             <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 dark:bg-dark-surface2 dark:border-white/10">
               <span className="text-xs font-extrabold text-slate-900 dark:text-slate-200">Automated Rebalancing</span>
-              <button
-                onClick={() => updateUserProfile({ autoRebalance: !user.autoRebalance })}
-                className={`w-12 h-6 rounded-full transition-colors p-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 min-h-[44px] min-w-[44px] flex items-center ${
-                  user.autoRebalance ? 'bg-emerald-600' : 'bg-slate-300 dark:bg-slate-700'
-                }`}
-                aria-pressed={user.autoRebalance}
-                aria-label="Toggle Automated Rebalancing"
-              >
-                <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                  user.autoRebalance ? 'translate-x-6' : 'translate-x-0'
-                }`} />
-              </button>
+              <Toggle
+                checked={user.autoRebalance}
+                onChange={(checked) => updateUserProfile({ autoRebalance: checked })}
+                label="Toggle Automated Rebalancing"
+              />
             </div>
           </div>
         </Card>

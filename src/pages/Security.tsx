@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { Toggle } from '../components/ui/Toggle';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useNotifications } from '../context/NotificationContext';
 import { ShieldCheck, Lock, Smartphone, Key, AlertOctagon, Laptop } from 'lucide-react';
@@ -10,8 +11,8 @@ export const Security: React.FC = () => {
   const { user, updateUserProfile } = usePortfolio();
   const { addToast } = useNotifications();
 
-  const toggle2FA = () => {
-    updateUserProfile({ twoFactorEnabled: !user.twoFactorEnabled });
+  const toggle2FA = (checked: boolean) => {
+    updateUserProfile({ twoFactorEnabled: checked });
   };
 
   const handleRevokeSession = (deviceName: string) => {
@@ -60,18 +61,11 @@ export const Security: React.FC = () => {
                   <p className="type-caption text-slate-700 dark:text-slate-400 font-medium">Yubikey / Google Authenticator requirement</p>
                 </div>
               </div>
-              <button
-                onClick={toggle2FA}
-                className={`w-12 h-6 rounded-full transition-colors p-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 min-h-[44px] min-w-[44px] flex items-center ${
-                  user.twoFactorEnabled ? 'bg-emerald-600' : 'bg-slate-300 dark:bg-slate-700'
-                }`}
-                aria-pressed={user.twoFactorEnabled}
-                aria-label="Toggle Authenticator App 2FA"
-              >
-                <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                  user.twoFactorEnabled ? 'translate-x-6' : 'translate-x-0'
-                }`} />
-              </button>
+              <Toggle
+                checked={user.twoFactorEnabled}
+                onChange={toggle2FA}
+                label="Toggle Authenticator App 2FA"
+              />
             </div>
 
             {/* Biometric Touch / Face ID Card */}
