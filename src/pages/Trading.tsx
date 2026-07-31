@@ -65,21 +65,25 @@ export const Trading: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Badge variant="brand" size="sm">Smart Router Engine</Badge>
-            <span className="type-caption font-mono">Zero-Latency Execution</span>
+            <span className="type-caption font-mono font-medium">Zero-Latency Execution</span>
           </div>
-          <h1 className="type-display-l text-slate-100">Enterprise Trading Desk</h1>
-          <p className="type-body-l text-slate-300 mt-1">
+          <h1 className="type-display-l text-slate-900 dark:text-white">Enterprise Trading Desk</h1>
+          <p className="type-body-l text-slate-700 dark:text-slate-300 mt-1">
             Direct market access with AI slippage protection and automated liquidity routing.
           </p>
         </div>
 
         <div className="text-right">
-          <span className="type-caption font-semibold block text-slate-300">Available Cash Reserve</span>
-          <span className="text-xl font-bold font-mono font-mono-nums text-emerald-400">{formatCurrency(user.cashBalance)}</span>
+          <span className="type-caption font-semibold block text-slate-700 dark:text-slate-300">Available Cash Reserve</span>
+          {/* Deep Enterprise Green (#166534) for available cash metric in Light Mode */}
+          <span className="text-xl sm:text-2xl font-extrabold font-mono font-mono-nums text-emerald-800 dark:text-emerald-400">
+            {formatCurrency(user.cashBalance)}
+          </span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Order Entry Card */}
         <Card variant="glass" className="lg:col-span-2">
           <CardHeader>
             <div>
@@ -88,20 +92,21 @@ export const Trading: React.FC = () => {
             </div>
           </CardHeader>
 
-          <div className="p-6 space-y-6">
-            <div className="grid grid-cols-3 gap-2 p-1 bg-dark-surface1 rounded-xl border border-white/10" role="tablist" aria-label="Order Mode">
+          <div className="p-4 sm:p-6 space-y-6">
+            {/* Order Side Action Tabs */}
+            <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 border border-slate-300 dark:bg-dark-surface1 dark:border-white/10 rounded-xl" role="tablist" aria-label="Order Mode">
               {(['BUY', 'SELL', 'SWAP'] as const).map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setSide(mode)}
-                  className={`py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  className={`py-2.5 text-xs font-extrabold rounded-lg transition-all cursor-pointer min-h-[44px] sm:min-h-[36px] ${
                     side === mode
                       ? mode === 'BUY'
-                        ? 'bg-emerald-500 text-slate-950 shadow-emerald-glow font-extrabold'
+                        ? 'bg-emerald-600 text-white shadow-sm font-extrabold'
                         : mode === 'SELL'
-                        ? 'bg-red-600 text-white font-extrabold'
-                        : 'bg-purple-600 text-white font-extrabold'
-                      : 'text-slate-300 hover:text-white'
+                        ? 'bg-red-600 text-white shadow-sm font-extrabold'
+                        : 'bg-blue-600 text-white shadow-sm font-extrabold'
+                      : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
                   }`}
                   role="tab"
                   aria-selected={side === mode}
@@ -112,17 +117,17 @@ export const Trading: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="ticker-select" className="type-overline block text-slate-300 mb-1.5">
+              <label htmlFor="ticker-select" className="type-overline block text-slate-800 dark:text-slate-300 mb-1.5 font-bold">
                 Select Asset Ticker
               </label>
               <select
                 id="ticker-select"
                 value={selectedSymbol}
                 onChange={(e) => setSelectedSymbol(e.target.value)}
-                className="glass-input w-full px-4 py-2.5 text-sm font-bold font-mono"
+                className="glass-input w-full px-4 py-2.5 text-sm font-extrabold font-mono text-slate-900 dark:text-slate-100"
               >
                 {assets.map((a) => (
-                  <option key={a.symbol} value={a.symbol} className="bg-dark-surface1 text-slate-100">
+                  <option key={a.symbol} value={a.symbol} className="bg-white dark:bg-dark-surface1 text-slate-900 dark:text-slate-100">
                     {a.symbol} — {a.name} (${a.price.toFixed(2)})
                   </option>
                 ))}
@@ -130,7 +135,7 @@ export const Trading: React.FC = () => {
             </div>
 
             <div>
-              <label className="type-overline block text-slate-300 mb-1.5">
+              <label className="type-overline block text-slate-800 dark:text-slate-300 mb-1.5 font-bold">
                 Execution Routing Type
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -138,10 +143,10 @@ export const Trading: React.FC = () => {
                   <button
                     key={type}
                     onClick={() => setOrderType(type)}
-                    className={`py-2 px-3 text-xs font-bold rounded-xl border transition-colors cursor-pointer ${
+                    className={`py-2 px-3 text-xs font-extrabold rounded-xl border transition-colors cursor-pointer min-h-[44px] sm:min-h-[36px] ${
                       orderType === type
-                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 font-extrabold'
-                        : 'bg-dark-surface1 text-slate-300 border-white/10 hover:text-white'
+                        ? 'bg-emerald-50 text-emerald-900 border-emerald-500 font-extrabold dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/40'
+                        : 'bg-slate-100 border-slate-300 text-slate-800 hover:text-slate-950 dark:bg-dark-surface1 dark:border-white/10 dark:text-slate-300 dark:hover:text-white'
                     }`}
                     aria-selected={orderType === type}
                   >
@@ -171,8 +176,9 @@ export const Trading: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="type-caption text-slate-300">Position Preset:</span>
+            {/* Percentage Sizing Presets */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="type-caption text-slate-700 dark:text-slate-300 font-bold">Position Preset:</span>
               {[25, 50, 75, 100].map((pct) => (
                 <button
                   key={pct}
@@ -185,7 +191,7 @@ export const Trading: React.FC = () => {
                       setQuantity(maxHolding.toFixed(2));
                     }
                   }}
-                  className="px-2.5 py-1 text-[11px] font-mono font-bold rounded-lg bg-dark-surface2 border border-white/10 text-slate-300 hover:text-white hover:border-emerald-500/40 cursor-pointer"
+                  className="px-3 py-1.5 text-xs font-mono font-bold rounded-lg bg-slate-100 border border-slate-300 text-slate-800 hover:text-slate-950 hover:border-emerald-500 dark:bg-dark-surface2 dark:border-white/10 dark:text-slate-300 dark:hover:text-white cursor-pointer min-h-[44px] sm:min-h-[36px] flex items-center justify-center"
                   aria-label={`Set position size to ${pct}%`}
                 >
                   {pct}%
@@ -193,18 +199,19 @@ export const Trading: React.FC = () => {
               ))}
             </div>
 
-            <div className="p-4 rounded-xl bg-dark-surface2 border border-white/10 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-300">
+            {/* Order Summary Box */}
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-dark-surface2 dark:border-white/10 space-y-2 text-xs">
+              <div className="flex justify-between text-slate-700 dark:text-slate-300 font-medium">
                 <span>Estimated Market Price:</span>
-                <span className="font-mono font-bold text-slate-100">{formatCurrency(executionPrice)}</span>
+                <span className="font-mono font-extrabold text-slate-900 dark:text-slate-100">{formatCurrency(executionPrice)}</span>
               </div>
-              <div className="flex justify-between text-slate-300">
-                <span>Estimated Total:</span>
-                <span className="font-mono font-bold text-emerald-400">{formatCurrency(estimatedTotal)}</span>
+              <div className="flex justify-between text-slate-700 dark:text-slate-300 font-medium">
+                <span>Estimated Total Settlement:</span>
+                <span className="font-mono font-extrabold text-emerald-800 dark:text-emerald-400">{formatCurrency(estimatedTotal)}</span>
               </div>
-              <div className="flex justify-between text-slate-400 text-[11px]">
-                <span>Exchange Fee:</span>
-                <span className="font-mono">${estimatedFee.toFixed(2)}</span>
+              <div className="flex justify-between text-slate-600 dark:text-slate-400 text-[11px] font-medium">
+                <span>Exchange Execution Fee:</span>
+                <span className="font-mono font-bold">${estimatedFee.toFixed(2)}</span>
               </div>
             </div>
 
@@ -222,6 +229,7 @@ export const Trading: React.FC = () => {
           </div>
         </Card>
 
+        {/* Live Order Book Level II Depth */}
         <Card variant="glass">
           <CardHeader>
             <div>
@@ -230,26 +238,28 @@ export const Trading: React.FC = () => {
             </div>
           </CardHeader>
 
-          <div className="p-6 space-y-4 text-xs font-mono font-mono-nums">
+          <div className="p-4 sm:p-6 space-y-4 text-xs font-mono font-mono-nums">
+            {/* Asks (Sell Orders) */}
             <div className="space-y-1" role="region" aria-label="Asks Sell Orders">
-              <span className="type-overline text-red-400 font-bold block">Asks (Sell Orders)</span>
+              <span className="type-overline text-red-700 dark:text-red-400 font-extrabold block">Asks (Sell Orders)</span>
               {mockAsks.map((ask, i) => (
-                <div key={i} className="flex justify-between py-1 px-2 rounded bg-red-500/10 text-red-300">
+                <div key={i} className="flex justify-between py-1.5 px-2.5 rounded border bg-red-100/80 text-red-900 border-red-300 dark:bg-red-500/10 dark:text-red-300 dark:border-red-500/20 font-bold">
                   <span>${ask.price}</span>
                   <span>{ask.qty} shares</span>
                 </div>
               ))}
             </div>
 
-            <div className="py-2 border-y border-white/10 flex justify-between items-center font-bold text-slate-100">
+            <div className="py-2.5 border-y border-slate-200 dark:border-white/10 flex justify-between items-center font-extrabold text-slate-900 dark:text-slate-100">
               <span>Spread / Mid:</span>
-              <span className="text-emerald-400">${selectedAsset.price.toFixed(2)}</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-mono">${selectedAsset.price.toFixed(2)}</span>
             </div>
 
+            {/* Bids (Buy Orders) */}
             <div className="space-y-1" role="region" aria-label="Bids Buy Orders">
-              <span className="type-overline text-emerald-400 font-bold block">Bids (Buy Orders)</span>
+              <span className="type-overline text-emerald-800 dark:text-emerald-400 font-extrabold block">Bids (Buy Orders)</span>
               {mockBids.map((bid, i) => (
-                <div key={i} className="flex justify-between py-1 px-2 rounded bg-emerald-500/10 text-emerald-300">
+                <div key={i} className="flex justify-between py-1.5 px-2.5 rounded border bg-emerald-100/80 text-emerald-900 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/20 font-bold">
                   <span>${bid.price}</span>
                   <span>{bid.qty} shares</span>
                 </div>
@@ -259,6 +269,7 @@ export const Trading: React.FC = () => {
         </Card>
       </div>
 
+      {/* Confirm Order Modal */}
       <Modal
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
@@ -266,22 +277,22 @@ export const Trading: React.FC = () => {
         description="Verify transaction parameters before submitting to router"
       >
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-dark-surface2 border border-white/10 space-y-3 text-xs">
-            <div className="flex justify-between border-b border-white/10 pb-2">
-              <span className="text-slate-400">Action & Asset:</span>
-              <span className="font-bold text-slate-100">{side} {selectedAsset.symbol}</span>
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 dark:bg-dark-surface2 dark:border-white/10 space-y-3 text-xs">
+            <div className="flex justify-between border-b border-slate-200 dark:border-white/10 pb-2">
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Action & Asset:</span>
+              <span className="font-bold text-slate-900 dark:text-slate-100">{side} {selectedAsset.symbol}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Quantity:</span>
-              <span className="font-mono font-bold text-slate-100">{numQty} units</span>
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Quantity:</span>
+              <span className="font-mono font-bold text-slate-900 dark:text-slate-100">{numQty} units</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Price per Unit:</span>
-              <span className="font-mono text-slate-100">${executionPrice.toFixed(2)}</span>
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Price per Unit:</span>
+              <span className="font-mono font-bold text-slate-900 dark:text-slate-100">${executionPrice.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between border-t border-white/10 pt-2 font-bold">
-              <span className="text-slate-200">Total Settlement:</span>
-              <span className="font-mono text-emerald-400">{formatCurrency(estimatedTotal)}</span>
+            <div className="flex justify-between border-t border-slate-200 dark:border-white/10 pt-2 font-bold">
+              <span className="text-slate-900 dark:text-slate-200">Total Settlement:</span>
+              <span className="font-mono text-emerald-800 dark:text-emerald-400">{formatCurrency(estimatedTotal)}</span>
             </div>
           </div>
 

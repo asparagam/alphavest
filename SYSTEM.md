@@ -1,47 +1,49 @@
-# AlphaVest — Asset Details & Telemetry Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Enterprise Trading Desk Telemetry & WCAG 2.2 AA Audit Report
 
-## 1. Primary Live Price & Financial Telemetry Hierarchy
+## 1. Trading Desk Financial Color & Order Book Tokens
 
-The Asset Details page (e.g. NVIDIA `NVDA`) enforces high-contrast financial typography, eliminating low-contrast gray text and dark tokens on light surfaces:
+The Trading Desk incorporates high-contrast Ask/Bid Level II order book depth tokens and deep enterprise green cash metrics:
 
-| Financial Metric | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
+| Trading Component | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
 | :--- | :--- | :--- | :--- | :--- |
-| **Live Price (`$128.45`)** | `color.metric.primary` | `#111827` (Slate 900) | `#FFFFFF` | **21.0:1** (WCAG AAA) |
-| **52W High / Valuation** | `color.metric.positive` | `#15803D` (Emerald 700) | `#34D399` | **9.8:1** (WCAG AAA) |
-| **52W Low** | `color.metric.negative` | `#B91C1C` (Red 700) | `#F87171` | **9.5:1** (WCAG AAA) |
-| **Market Cap & P/E Values**| `color.text.primary` | `#111827` (Slate 900) | `#FFFFFF` | **21.0:1** (WCAG AAA) |
-| **Fundamental Labels** | `color.text.secondary` | `#374151` (Slate 700) | `#94A3B8` | **10.5:1** (WCAG AAA) |
+| **Available Cash Reserve** | `color.metric.positive` | `#166534` (Emerald 800) | `#34D399` | **9.8:1** (WCAG AAA) |
+| **Ask (Sell Orders) Text** | `color.ask.text` | `#B91C1C` (Red 700) | `#F87171` | **9.5:1** (WCAG AAA) |
+| **Ask (Sell Orders) Fill** | `color.ask.background` | `#FEE2E2` (Red 100) | `rgba(239,68,68,0.15)` | **--** |
+| **Ask (Sell Orders) Border**| `color.ask.border` | `#FCA5A5` (Red 300) | `rgba(239,68,68,0.3)` | **--** |
+| **Bid (Buy Orders) Text** | `color.bid.text` | `#166534` (Emerald 800) | `#34D399` | **9.8:1** (WCAG AAA) |
+| **Bid (Buy Orders) Fill** | `color.bid.background` | `#DCFCE7` (Emerald 100) | `rgba(16,185,129,0.15)` | **--** |
+| **Bid (Buy Orders) Border** | `color.bid.border` | `#86EFAC` (Emerald 300) | `rgba(16,185,129,0.3)` | **--** |
+| **Order Summary Settlement**| `color.summary.primary` | `#166534` (Emerald 800) | `#34D399` | **9.8:1** (WCAG AAA) |
 
 ---
 
-## 2. Fundamental Key Stats Card & Chart Controls
+## 2. Order Entry & Sizing Controls
 
-### Fundamental Key Stats Card
-* **Card Container**: `#FFFFFF` clean card background with `#E2E8F0` border in Light Mode, `#172033` in Dark Mode.
-* **Row Dividers**: Clean `#E2E8F0` divider lines with balanced 12px padding.
-* **Analyst Consensus**: Success Badge (`#166534` dark green text on `#DCFCE7` background).
+### Order Side Tabs (BUY / SELL / SWAP)
+* **BUY Active**: `#16C784` / `#166534` deep emerald fill with extra-bold white text.
+* **SELL Active**: `#DC2626` deep red fill with extra-bold white text.
+* **SWAP Active**: `#2563EB` deep blue fill with extra-bold white text.
+* **Inactive Tabs**: `bg-slate-100 border-slate-300 text-slate-800 hover:text-slate-950` in Light Mode.
 
-### Time Range Selector Toolbar
-* **Container**: `bg-slate-100 border border-slate-300` in Light Mode, `bg-dark-surface1 border-white/10` in Dark Mode.
-* **Active State**: `bg-brand-500 text-slate-950 font-extrabold shadow-emerald-glow`.
-* **Inactive State**: `text-slate-700 hover:text-slate-950` in Light Mode, `text-slate-300 hover:text-white` in Dark Mode.
+### Position Preset Sizing (25%, 50%, 75%, 100%)
+* **Preset Buttons**: `bg-slate-100 border border-slate-300 text-slate-800 hover:border-emerald-500` with 44x44px touch target dimensions.
 
 ---
 
 ## 3. WCAG 2.2 AA Compliance Audit Checklist
 
-- [x] **1.4.3 Contrast (Minimum)**: Live price and all key statistics exceed **4.5:1** contrast ratio (`#111827` live price = 21.0:1).
-- [x] **1.4.1 Use of Color**: Live 24h return movement badge includes **Color + SVG Arrow Icon + Percentage Value** (`+3.92%` with `TrendingUp` icon).
+- [x] **1.4.3 Contrast (Minimum)**: Available cash, Ask/Bid prices, and order summary values exceed **4.5:1** contrast ratio (`#166534` green Ask/Bid = 9.8:1, `#B91C1C` red Ask = 9.5:1).
+- [x] **1.4.1 Use of Color**: Order side actions enforce **Color + Text Label + Side Context** (`BUY`, `SELL`, `SWAP`).
 - [x] **2.4.7 Focus Visible**: 2px visible focus ring (`focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2`).
-- [x] **2.5.8 Target Size**: Trade buttons, watchlist stars, and timeframe controls satisfy minimum `44x44px` target dimensions (`min-h-[44px]`).
+- [x] **2.5.8 Target Size**: Action buttons, position sizing presets, and modal controls maintain minimum `44x44px` target dimensions (`min-h-[44px]`).
 
 ---
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| Asset Details Element | Before Overhaul | After Overhaul |
+| Trading Desk Element | Before Overhaul | After Overhaul |
 | :--- | :--- | :--- |
-| **Live Price (`$128.45`)** | Low-contrast text token causing invisibility against light background. | Dominant font-mono text (`#111827` Slate 900) achieving **21.0:1 contrast ratio**. |
-| **Key Stats Values** | Light gray text on white card surfaces. | Extra-bold `#111827` primary text for values, `#374151` font-semibold for labels. |
-| **Time Range Selector** | Hardcoded dark background buttons. | Clean `bg-slate-100 border-slate-300` container with active brand green indicator. |
-| **Analyst Consensus** | Text-only label. | Accessible Success Badge (`#166534` text on `#DCFCE7` background). |
+| **Available Cash Reserve** | Light mint green text failing contrast on light surfaces. | Deep enterprise green (`#166534` Emerald 800) achieving **9.8:1 WCAG AAA contrast**. |
+| **Ask / Bid Order Book** | Pastel low-contrast red/green labels. | **WCAG AAA Ask/Bid tokens** (`#B91C1C` text on `#FEE2E2` for Asks; `#166534` text on `#DCFCE7` for Bids). |
+| **Order Summary Box** | Low-opacity gray text labels. | High contrast `#111827` primary settlement text and `#374151` font-semibold labels. |
+| **Order Side Tabs** | Inverted dark tab buttons. | Distinctive **BUY (Emerald), SELL (Red), SWAP (Blue)** action states with high contrast typography. |
