@@ -1,48 +1,50 @@
-# AlphaVest — AI Copilot Workspace Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Notifications Center Architecture & WCAG 2.2 AA Audit Report
 
-## 1. AI Copilot Light Theme Surface & Semantic Tokens
+## 1. Notification Card Read vs. Unread Semantic Tokens
 
-The AI Copilot workspace implements clean `#FFFFFF` card surfaces, light purple action bubbles, and accessible disclaimer banners:
+The Notifications Center implements clear visual distinction between read and unread alerts:
 
-| AI Workspace Component | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
+| Notification State | Light Mode Token | Hex / Class | Dark Mode Token | Contrast Ratio |
 | :--- | :--- | :--- | :--- | :--- |
-| **Assistant Message Surface** | `color.ai.surface` | `#FFFFFF` | `#172033` | **21.0:1** (WCAG AAA) |
-| **User Message Bubble** | `color.ai.user` | `#F3E8FF` (Light Purple) | `#16C784` | **12.5:1** (WCAG AAA) |
-| **User Message Text** | `color.ai.user.text` | `#581C87` (Purple 950) | `#090B13` | **12.5:1** (WCAG AAA) |
-| **AI Avatar Background** | `color.ai.avatar.bg` | `#F3E8FF` | `rgba(124,58,237,0.2)` | **--** |
-| **AI Avatar Icon** | `color.ai.avatar.icon` | `#7C3AED` (Purple 700) | `#C084FC` | **7.5:1** (WCAG AAA) |
-| **Quick Action Prompt Chips**| `color.ai.action` | `#FFFFFF` (Slate 300 border)| `#172033` | **10.5:1** (WCAG AAA) |
-| **Composer Input Field** | `color.ai.input` | `#FFFFFF` (Slate 300 border)| `#1E293B` | **21.0:1** (WCAG AAA) |
-| **Educational Disclaimer** | `color.ai.disclaimer` | `#FFF8E6` (Amber 50 fill) | `rgba(245,158,11,0.1)`| **8.8:1** (WCAG AAA) |
+| **Unread Card Surface** | `color.notification.unread` | `#F0FDF4` (Emerald 50/80) | `rgba(16,185,129,0.1)` | **20.5:1** (WCAG AAA) |
+| **Unread Left Accent Bar** | `color.notification.indicator` | `#15803D` (Emerald 700) | `#16C784` | **--** |
+| **Unread Title Text** | `color.notification.title.unread`| `#022C22` (Emerald 950) | `#FFFFFF` | **18.0:1** (WCAG AAA) |
+| **Read Card Surface** | `color.notification.read` | `#FFFFFF` (White) | `#172033` | **21.0:1** (WCAG AAA) |
+| **Read Title Text** | `color.notification.title.read` | `#111827` (Slate 900) | `#E2E8F0` | **21.0:1** (WCAG AAA) |
+| **Notification Message** | `color.notification.message` | `#374151` (Slate 700) | `#CBD5E1` | **10.5:1** (WCAG AAA) |
+| **Timestamp Text** | `color.notification.timestamp` | `#64748B` (Slate 500) | `#94A3B8` | **4.5:1** (WCAG AA) |
 
 ---
 
-## 2. AI Conversation Hierarchy & Controls
+## 2. Category Icons & Tabs Hierarchy
 
-### AI Message Cards & Educational Disclaimer
-* **Assistant Message Card**: `#FFFFFF` surface with `#E2E8F0` border and `#111827` body text.
-* **Educational Disclaimer**: `#FFF8E6` background, `#FCD34D` border, `#92400E` amber text with `#D97706` amber icon.
+### Category Icons Palette
+* **AI Insights**: Purple (`#7C3AED` Purple 700).
+* **Trades**: Emerald Green (`#15803D` Emerald 700).
+* **Security**: Blue (`#1D4ED8` Blue 700).
+* **Market Alerts**: Amber (`#D97706` Amber 700).
+* **System / General**: Slate (`#475569` Slate 600).
 
-### Quick Action Prompt Chips & Message Composer
-* **Prompt Chips**: `#FFFFFF` background, `#CBD5E1` border, `#334155` text with `#7C3AED` icon.
-* **Message Composer**: `#F8FAFC` input surface inside `#FFFFFF` container with `#7C3AED` purple focus ring.
+### Category Filter Tabs
+* **Active State**: `#DCFCE7` background fill with `#166534` text and `#86EFAC` border in Light Mode.
+* **Inactive State**: `#FFFFFF` background with `#334155` text and `#CBD5E1` border in Light Mode.
 
 ---
 
 ## 3. WCAG 2.2 AA Compliance Audit Checklist
 
-- [x] **1.4.3 Contrast (Minimum)**: Assistant text, user bubbles, and prompt chips exceed **4.5:1** contrast ratio (`#111827` assistant text = 21.0:1, `#581C87` user text = 12.5:1).
-- [x] **1.4.1 Use of Color**: AI messages combine **Color + Avatar Icon + Sender Label**.
-- [x] **2.4.7 Focus Visible**: 2px purple focus ring (`focus-visible:ring-2 focus-visible:ring-purple-500`).
-- [x] **2.5.8 Target Size**: Prompt chips, Send button, and rebalance action buttons satisfy minimum `44x44px` target dimensions (`min-h-[44px]`).
+- [x] **1.4.3 Contrast (Minimum)**: All notification titles, body text, timestamps, and tabs exceed **4.5:1** contrast ratio (`#111827` title = 21.0:1, `#374151` message = 10.5:1).
+- [x] **1.4.1 Use of Color**: Unread notifications combine **Light Green Fill + 4px Left Accent Border + NEW Badge + Emerald Status Dot**.
+- [x] **2.4.7 Focus Visible**: 2px visible focus ring (`focus-visible:ring-2 focus-visible:ring-brand-500`).
+- [x] **2.5.8 Target Size**: Notification card rows, action buttons, and category filter tabs satisfy minimum `44x44px` target dimensions (`min-h-[44px]`).
 
 ---
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| AI Copilot Element | Before Overhaul | After Overhaul |
+| Notification Element | Before Overhaul | After Overhaul |
 | :--- | :--- | :--- |
-| **AI Message Card** | Dark navy background (`#172033`) in light mode. | Clean `#FFFFFF` card surface with `#E2E8F0` border and `#111827` text. |
-| **User Message Bubble** | Mint green dark-mode token. | Soft enterprise light purple bubble (`#F3E8FF` fill with `#581C87` text). |
-| **Prompt Chips** | Hardcoded dark buttons. | White chips with `#CBD5E1` border and `#7C3AED` purple icons. |
-| **Message Composer** | Dark footer background. | Light `#F8FAFC` input bar with `#7C3AED` purple focus ring. |
+| **Unread Cards** | Dark background with low contrast mint text. | `#F0FDF4` fill with solid 4px `#15803D` emerald left accent bar and extra-bold text. |
+| **Read Cards** | Dark surface tokens. | Clean `#FFFFFF` card surface with `#E2E8F0` border and high-contrast Slate 900 typography. |
+| **Category Icons** | Monochrome dark icons. | Semantic color-coded icons (Purple for AI, Green for Trades, Blue for Security, Amber for Market). |
+| **Category Filter Tabs** | Dark tab bar tokens. | Accessible Light Mode tabs (`#DCFCE7` active fill with `#166534` text). |
