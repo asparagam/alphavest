@@ -12,7 +12,7 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Light mode root overrides */
+  /* High-Contrast Light Mode Root Overrides */
   html.light body {
     @apply bg-light-base text-slate-900;
   }
@@ -64,17 +64,17 @@
 .type-caption {
   font-size: clamp(0.75rem, 0.9vw, 0.813rem);
   line-height: 1.4;
-  @apply font-medium text-slate-600 dark:text-slate-400;
+  @apply font-medium text-slate-700 dark:text-slate-300;
 }
 
 .type-label {
   font-size: clamp(0.75rem, 0.9vw, 0.813rem);
-  @apply font-semibold text-slate-700 dark:text-slate-300;
+  @apply font-semibold text-slate-800 dark:text-slate-200;
 }
 
 .type-overline {
   font-size: clamp(0.688rem, 0.8vw, 0.75rem);
-  @apply font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400;
+  @apply font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400;
 }
 
 /* Explicit Dark Mode Heading Text Override */
@@ -93,21 +93,21 @@
 }
 
 html.light .hero-panel {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  @apply border-slate-200 shadow-card-light;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  @apply border-slate-300 shadow-card-light;
 }
 
-/* Layered Dark Surfaces & Glass Utilities */
+/* Layered Dark & High-Contrast Light Surfaces */
 .glass-panel {
-  @apply bg-white border border-light-border shadow-glass-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated;
+  @apply bg-white border border-slate-300 shadow-glass-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated;
 }
 
 .glass-card {
-  @apply bg-white border border-light-border rounded-2xl backdrop-blur-md shadow-card-light transition-all duration-200 hover:border-slate-300 dark:bg-dark-surface2 dark:border-white/10 dark:shadow-sm dark:hover:border-white/20;
+  @apply bg-white border border-slate-300 rounded-2xl backdrop-blur-md shadow-card-light transition-all duration-200 hover:border-slate-400 dark:bg-dark-surface2 dark:border-white/10 dark:shadow-sm dark:hover:border-white/20;
 }
 
 .glass-input {
-  @apply bg-slate-100/80 border border-slate-300 text-slate-900 placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-elevated dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
+  @apply bg-slate-100 border border-slate-300 text-slate-900 placeholder-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-elevated dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
 }
 
 /* Financial Tabular Numeric Formatting */
@@ -127,7 +127,7 @@ html.light .hero-panel {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 hover:bg-slate-400 rounded-full dark:bg-slate-800/80 dark:hover:bg-slate-700;
+  @apply bg-slate-400 hover:bg-slate-500 rounded-full dark:bg-slate-800/80 dark:hover:bg-slate-700;
 }
 
 /* WCAG Visible Keyboard Focus Indicator */

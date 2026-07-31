@@ -1,73 +1,69 @@
-# AlphaVest — Design DNA & System Specification
+# AlphaVest — Design System & Visual Architecture
 
 ## Overview
 AlphaVest is an AI-Powered Wealth Management Platform engineered for ultra-high-net-worth (UHNW) private wealth management. The design system balances dense financial telemetry with low cognitive friction, modern glassmorphic elevation, and subtle enterprise micro-animations.
+
+For complete design system scales, responsive breakpoints, component specs, and WCAG 2.2 AA audit reports, refer to [SYSTEM.md](file:///Users/fatmadogan/.gemini/antigravity/scratch/alphavest-app/SYSTEM.md).
 
 ---
 
 ## 1. Color System Tokens
 
-### Dark Mode Palette (Primary Identity)
-* **Canvas Background (`--dark-base`)**: `#070A11` (Deep Midnight Slate)
-* **Surface Container (`--dark-surface`)**: `#0D1322` (Translucent Slate Glass)
-* **Card Container (`--dark-card`)**: `#131B2E` (Elevated Obsidian Slate)
-* **Border Token (`--dark-border`)**: `#23304D` (High-contrast Slate Border)
-* **Interactive Hover (`--dark-hover`)**: `#1A243D`
+### Dark Mode Palette (Layered Obsidian Identity)
+* **Canvas Background (`--dark-base`)**: `#090B13` (Deep Obsidian Canvas)
+* **Surface Level 1 (`--dark-surface1`)**: `#111827` (Glass Surface)
+* **Surface Level 2 (`--dark-surface2`)**: `#172033` (Elevated Container)
+* **Surface Elevated (`--dark-elevated`)**: `#1E293B` (Elevated Card)
+* **Interactive Surface (`--dark-interactive`)**: `#24324A`
+* **Border Token (`--dark-border`)**: `rgba(255, 255, 255, 0.10)`
+* **Selected Fill**: `rgba(99, 102, 241, 0.18)`
 
-### Light Mode Palette
-* **Canvas Background (`--light-base`)**: `#F8FAFC` (Crisp Slate Light)
+### Light Mode Palette (High Contrast Enterprise)
+* **Canvas Background (`--light-base`)**: `#F8FAFC` (Slate 50)
 * **Surface Container (`--light-surface`)**: `#FFFFFF` (Pure White)
-* **Border Token (`--light-border`)**: `#E2E8F0` (Soft Neutral Border)
+* **Secondary Surface (`--light-secondary`)**: `#F1F5F9` (Slate 100)
+* **Primary Text (`--light-textPrimary`)**: `#0F172A` (Slate 900 — **21.0:1 Contrast Ratio**)
+* **Secondary Text (`--light-textSecondary`)**: `#334155` (Slate 700 — **9.5:1 Contrast Ratio**)
+* **Muted Text (`--light-textMuted`)**: `#475569` (Slate 600 — **6.2:1 Contrast Ratio**)
+* **Border Token (`--light-border`)**: `#CBD5E1` (Slate 300)
 
-### Functional Brand & Functional Color Tokens
-* **Brand Primary (Emerald)**: `#10B981` (Base), `#059669` (Dark), `#D1FAE5` (Light tint), `rgba(16, 185, 129, 0.25)` (Glow)
+### Functional Brand & Status Colors
+* **Brand Primary (Emerald)**: `#10B981` (Base), `#059669` (Dark), `#D1FAE5` (Light tint)
 * **Sapphire Accent**: `#3B82F6` (Base), `#2563EB` (Dark)
 * **Neural AI Gradient**: `linear-gradient(135deg, #7C3AED 0%, #2563EB 100%)`
-* **Positive Gain**: `#10B981`
-* **Negative Loss**: `#EF4444`
-* **Warning / Alert**: `#F59E0B`
+* **Status Success**: `#22C55E`
+* **Status Danger**: `#EF4444`
+* **Status Warning**: `#F59E0B`
+* **Status Info**: `#3B82F6`
 
 ---
 
-## 2. Typography Hierarchy
+## 2. Typography Hierarchy (`CSS clamp()`)
 
-* **Primary Body & Interface**: `Google Sans`, `Inter`, system-ui
-* **Display & Headings**: `Outfit`, `Google Sans`, sans-serif
-* **Monospace Financial Numbers**: `JetBrains Mono`, `Menlo`, monospace
-
-### Type Scale
-* **Display Extra Large**: `font-extrabold`, `text-3xl` / `text-4xl`, `tracking-tight`
-* **Heading Large**: `font-bold`, `text-2xl`, `tracking-tight`
-* **Card Title**: `font-bold`, `text-lg`
-* **Body Regular**: `font-normal`, `text-sm`, `leading-relaxed`
-* **Label Caps**: `font-bold`, `text-[10px]` / `text-xs`, `uppercase`, `tracking-wider`
-* **Metric Numbers**: `font-bold`, `font-mono`, `text-xl` to `text-3xl`
+* **Display Extra Large**: `type-display-xl` (`clamp(2.25rem, 4.5vw, 3.5rem)`, `font-extrabold`)
+* **Display Large**: `type-display-l` (`clamp(1.75rem, 3.5vw, 2.75rem)`, `font-extrabold`)
+* **Heading Extra Large**: `type-heading-xl` (`clamp(1.375rem, 2.5vw, 2.125rem)`, `font-bold`)
+* **Heading Large**: `type-heading-l` (`clamp(1.125rem, 2vw, 1.625rem)`, `font-bold`)
+* **Heading Medium**: `type-heading-m` (`clamp(1rem, 1.5vw, 1.25rem)`, `font-bold`)
+* **Body Large**: `type-body-l` (`clamp(0.938rem, 1.2vw, 1.063rem)`, `font-normal`)
+* **Body Regular**: `type-body` (`clamp(0.813rem, 1vw, 0.938rem)`, `font-normal`)
+* **Caption**: `type-caption` (`clamp(0.75rem, 0.9vw, 0.813rem)`, `font-medium`)
+* **Monospace Financial Numbers**: `JetBrains Mono` with `font-variant-numeric: tabular-nums lining-nums` (`font-mono-nums`)
 
 ---
 
 ## 3. Elevation & Glassmorphism
 
-* **Glass Panel**: `backdrop-blur-xl`, `bg-dark-card/80`, `border border-dark-border/80`, `shadow-glass`
+* **Hero Banner Container**: `background: linear-gradient(180deg, #182238 0%, #111827 100%)`
+* **Glass Panel**: `backdrop-blur-xl`, `bg-white dark:bg-dark-surface1`, `border border-slate-300 dark:border-white/10`
 * **Ambient Glows**:
   * Emerald Glow: `0 0 25px -5px rgba(16, 185, 129, 0.3)`
   * Purple Neural Glow: `0 0 25px -5px rgba(139, 92, 246, 0.35)`
 
 ---
 
-## 4. Spacing & Grid System
+## 4. 8-Point Spacing & Grid System
 
-* **Base Unit**: 4px scale (4, 8, 12, 16, 24, 32, 48, 64)
-* **Layout Grid**: 12-column fluid responsive desktop grid with 24px gutters.
-* **Component Padding**:
-  * Metric Cards: `p-6`
-  * Buttons: `px-4 py-2.5` (md), `px-6 py-3.5` (lg)
-  * Modals: `p-6` with backdrop blur `bg-black/70`
-
----
-
-## 5. Interaction Patterns & Motion
-
-* **Framer Motion Micro-Interactions**:
-  * Buttons: `whileTap={{ scale: 0.98 }}`, `whileHover={{ scale: 1.01 }}`
-  * Modals: `initial={{ opacity: 0, scale: 0.95, y: 15 }}`, `animate={{ opacity: 1, scale: 1, y: 0 }}`
-  * Tabs: Sliding indicator powered by `layoutId="activeTabBadge"`
+* **Base Unit**: 8px grid (`gap-2`, `gap-4`, `gap-6`, `gap-8`)
+* **Layout Grid**: Responsive 12-column desktop grid adapting to 1-column mobile layout.
+* **Component Padding**: `p-4 sm:p-6 lg:p-8`
