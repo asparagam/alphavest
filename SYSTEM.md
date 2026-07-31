@@ -1,4 +1,4 @@
-# AlphaVest — Enterprise Light Theme Architecture & WCAG 2.2 AA Audit Report
+# AlphaVest — Light Theme Architecture & WCAG 2.2 AA Audit Report
 
 ## 1. Surface Level Elevation Hierarchy (Levels 0 – 5)
 The AlphaVest Design System enforces an explicit 6-level surface hierarchy to eliminate floating white cards on dark backgrounds and deliver a clean, enterprise SaaS aesthetic:
@@ -7,26 +7,26 @@ The AlphaVest Design System enforces an explicit 6-level surface hierarchy to el
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Level 0** | **App Outer Canvas** | `color.background.primary` | `#F7F8FA` | `dark.base` | `#090B13` | **21.0:1** |
 | **Level 1** | **Page Content Area** | `color.background.secondary` | `#F9FAFB` | `dark.surface1` | `#111827` | **21.0:1** |
-| **Level 2** | **Cards & Panels** | `color.surface.default` | `#FFFFFF` | `dark.surface2` | `#172033` | **21.0:1** |
+| **Level 2** | **Cards & Strategy Stream** | `color.surface.default` | `#FFFFFF` | `dark.surface2` | `#172033` | **21.0:1** |
 | **Level 3** | **Elevated Components** | `color.surface.elevated` | `#FFFFFF` | `dark.elevated` | `#1E293B` | **21.0:1** |
-| **Level 4** | **Dropdowns & Tooltips**| `color.surface.dropdown` | `#FFFFFF` | `dark.interactive` | `#24324A` | **21.0:1** |
+| **Level 4** | **Disclaimer Notice / Footer**| `color.surface.notice` | `#FFF8E6` | `dark.surface2` | `#172033` | **18.4:1** |
 | **Level 5** | **Modals & Dialogs** | `color.surface.dialog` | `#FFFFFF` | `dark.elevated` | `#1E293B` | **21.0:1** |
 
 ---
 
-## 2. Standardized Enterprise Primary Color Tokens
+## 2. Neural Strategy Stream & Disclaimer Component Refinements
 
-### Primary Brand Colors
-* **Primary Green (`color.brand.green`)**: `#16C784` (Base), `#12B76A` (Hover), `#0F9F5F` (Pressed), `#ECFDF3` (Subtle Bg)
-* **Primary AI Purple (`color.brand.purple`)**: `#7C3AED` (Base), `#6D28D9` (Hover), `#5B21B6` (Pressed), `#F3E8FF` (Subtle Bg)
-* **Accent Blue (`color.brand.blue`)**: `#3B82F6` (Base), `#2563EB` (Hover), `#EFF6FF` (Subtle Bg)
+### Neural Strategy Stream Cards
+* **Light Theme Surface**: `#FFFFFF` clean card background with `#E2E8F0` border and `shadow-card-light`.
+* **Title & Description**: High-contrast `#111827` primary text and `#4B5563` secondary description text.
+* **Impact Badges**:
+  * **HIGH IMPACT**: Danger Badge (`#FEF2F2` background, `#DC2626` text + `AlertCircle` icon).
+  * **MEDIUM IMPACT**: Warning Badge (`#FFFBEB` background, `#D97706` text + `AlertTriangle` icon).
+  * **LOW IMPACT**: Brand Badge (`#ECFDF5` background, `#059669` text + `Info` icon).
+* **Action Buttons**: Integrated AI Copilot button maintaining purple AI gradient (`#7C3AED` to `#3B82F6`) and 44x44px touch target dismiss action.
 
-### High-Contrast Typography Tokens
-* **Primary Text (`color.text.primary`)**: `#111827` (Slate 900 — **21.0:1 Contrast Ratio**)
-* **Secondary Text (`color.text.secondary`)**: `#4B5563` (Slate 600 — **9.0:1 Contrast Ratio**)
-* **Muted Text (`color.text.muted`)**: `#6B7280` (Slate 500 — **4.8:1 Contrast Ratio** — exceeds 4.5:1 WCAG requirement)
-* **Disabled Text (`color.text.disabled`)**: `#9CA3AF` (Slate 400)
-* **Border Default (`color.border.default`)**: `#E2E8F0` (Slate 200)
+### Information / Disclaimer Notice Card
+* **Light Theme Surface**: Soft enterprise warning background (`#FFF8E6` / `#FEF3C7`), soft amber border (`#FDE68A`), and dark `#111827` typography with `#D97706` warning icon.
 
 ---
 
@@ -42,10 +42,8 @@ The AlphaVest Design System enforces an explicit 6-level surface hierarchy to el
 
 ## 4. Theme Implementation Before vs. After Summary
 
-| Surface Area | Before Fix | After Fix |
+| Component | Before Fix | After Fix |
 | :--- | :--- | :--- |
-| **Global Background** | Hardcoded `#090B13` dark obsidian canvas with floating white cards. | Enterprise `#F7F8FA` level-0 app canvas with `#F9FAFB` page content area. |
-| **Cards & Panels** | Dark blue fills appearing under light mode. | Crisp `#FFFFFF` card surfaces with `#E2E8F0` borders and soft shadows. |
-| **Footer & Disclaimers** | Dark container background at bottom of page. | Clean `#F4F6F8` footer surface with `#111827` legal text. |
-| **Top Navigation** | Hardcoded dark header. | Glassmorphic `#FFFFFF/90` sticky bar with `#111827` typography. |
-| **Primary Brand Accent** | Generic emerald green. | Standardized `#16C784` primary green and `#7C3AED` AI purple brand tokens. |
+| **Neural Strategy Cards** | Dark navy `#172033` surface in Light Mode. | Clean `#FFFFFF` surface with `#E2E8F0` border and high-contrast text. |
+| **Impact Badges** | Relied solely on colored text labels. | **Color + Icon + Label** badges for High, Medium, and Low impact levels. |
+| **Disclaimer Card** | Dark mode black surface banner. | Enterprise `#FFF8E6` soft amber notice with `#111827` typography. |
