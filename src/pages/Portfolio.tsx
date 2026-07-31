@@ -32,22 +32,22 @@ export const Portfolio: React.FC = () => {
               e.stopPropagation();
               toggleWatchlist(asset.symbol);
             }}
-            className="text-slate-500 hover:text-amber-400 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 rounded p-0.5"
+            className="text-slate-400 hover:text-amber-500 cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 rounded p-0.5"
             aria-label={`Toggle ${asset.symbol} in watchlist`}
           >
             <Star
               className={`w-4 h-4 ${
-                watchlist.includes(asset.symbol) ? 'fill-amber-400 text-amber-400' : ''
+                watchlist.includes(asset.symbol) ? 'fill-amber-400 text-amber-500' : ''
               }`}
               aria-hidden="true"
             />
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-slate-100 dark:text-slate-100 light:text-slate-900">{asset.symbol}</span>
+              <span className="font-mono font-extrabold text-slate-900 dark:text-white tracking-tight">{asset.symbol}</span>
               <Badge variant="neutral" size="sm">{asset.category}</Badge>
             </div>
-            <span className="type-caption text-slate-300 dark:text-slate-300 light:text-slate-500 block truncate">{asset.name}</span>
+            <span className="type-caption text-slate-600 dark:text-slate-400 block truncate font-medium">{asset.name}</span>
           </div>
         </div>
       ),
@@ -58,7 +58,7 @@ export const Portfolio: React.FC = () => {
       sortable: true,
       align: 'right',
       accessor: (asset) => (
-        <span className="font-mono font-bold text-slate-100 font-mono-nums">
+        <span className="font-mono font-bold text-slate-900 dark:text-white font-mono-nums">
           {formatCurrency(asset.price)}
         </span>
       ),
@@ -77,10 +77,11 @@ export const Portfolio: React.FC = () => {
       align: 'right',
       accessor: (asset) => (
         <div>
-          <span className="font-mono font-bold text-emerald-400 font-mono-nums block">
+          {/* Deep Enterprise Green (#15803D) for holdings valuation */}
+          <span className="font-mono font-extrabold text-emerald-700 dark:text-emerald-400 font-mono-nums block text-sm sm:text-base">
             {formatCurrency(asset.holdingsValue)}
           </span>
-          <span className="type-caption text-slate-400 font-mono">
+          <span className="type-caption text-slate-600 dark:text-slate-400 font-mono font-medium">
             {asset.holdingsQty.toLocaleString()} units
           </span>
         </div>
@@ -92,7 +93,7 @@ export const Portfolio: React.FC = () => {
       sortable: true,
       align: 'right',
       accessor: (asset) => (
-        <span className="font-mono font-bold text-slate-300 font-mono-nums">
+        <span className="font-mono font-bold text-slate-800 dark:text-slate-200 font-mono-nums">
           {asset.allocationPercent.toFixed(1)}%
         </span>
       ),
@@ -123,9 +124,9 @@ export const Portfolio: React.FC = () => {
       {/* Hero Banner Panel */}
       <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="type-display-l text-slate-100">Portfolio Holdings & Positions</h1>
-          <p className="type-body-l text-slate-300 mt-1">
-            Real-time asset telemetry across {assets.length} core institutional positions. Total Valuation: <span className="font-mono font-bold text-emerald-400">{formatCurrency(totalPortfolioValue)}</span>
+          <h1 className="type-display-l text-slate-900 dark:text-white">Portfolio Holdings & Positions</h1>
+          <p className="type-body-l text-slate-700 dark:text-slate-300 mt-1">
+            Real-time asset telemetry across {assets.length} core institutional positions. Total Valuation: <span className="font-mono font-extrabold text-emerald-700 dark:text-emerald-400">{formatCurrency(totalPortfolioValue)}</span>
           </p>
         </div>
 
@@ -146,10 +147,10 @@ export const Portfolio: React.FC = () => {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 ${
+            className={`px-4 py-2 text-xs font-extrabold rounded-xl border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-500 min-h-[44px] sm:min-h-[36px] ${
               selectedCategory === cat
-                ? 'bg-brand-500 text-slate-950 border-brand-500 shadow-emerald-glow'
-                : 'bg-dark-surface2 border-white/10 text-slate-300 hover:text-white'
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm dark:bg-brand-500 dark:text-slate-950 dark:border-brand-500'
+                : 'bg-white border-slate-300 text-slate-800 hover:text-slate-950 hover:bg-slate-100 dark:bg-dark-surface2 dark:border-white/10 dark:text-slate-300 dark:hover:text-white'
             }`}
             role="tab"
             aria-selected={selectedCategory === cat}
@@ -160,7 +161,7 @@ export const Portfolio: React.FC = () => {
       </div>
 
       {/* Main DataTable */}
-      <Card variant="glass" className="p-6">
+      <Card variant="glass" className="p-4 sm:p-6">
         <DataTable
           data={filteredAssets}
           columns={columns}
