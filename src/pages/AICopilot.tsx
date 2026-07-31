@@ -84,19 +84,23 @@ export const AICopilot: React.FC = () => {
 
   return (
     <div className="space-y-6 sm:space-y-8" role="region" aria-label="AI Copilot Workspace">
-      <div className="hero-panel">
-        <div className="flex items-center gap-2 mb-1">
-          <Badge variant="ai" size="sm">GPT-4o Wealth Intelligence</Badge>
-          <span className="type-caption font-mono">Real-Time Context-Aware Feed</span>
+      {/* Hero Panel */}
+      <div className="hero-panel flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <Badge variant="ai" size="sm">GPT-4o Wealth Intelligence</Badge>
+            <span className="type-caption font-mono font-medium">Real-Time Context-Aware Feed</span>
+          </div>
+          <h1 className="type-display-l text-slate-900 dark:text-white">AI Copilot Strategic Assistant</h1>
+          <p className="type-body-l text-slate-700 dark:text-slate-300 mt-1">
+            Natural language interface for portfolio rebalancing, tax-loss harvesting, and risk scenario modeling.
+          </p>
         </div>
-        <h1 className="type-display-l text-slate-100">AI Copilot Strategic Assistant</h1>
-        <p className="type-body-l text-slate-300 mt-1">
-          Natural language interface for portfolio rebalancing, tax-loss harvesting, and risk scenario modeling.
-        </p>
       </div>
 
-      <Card variant="ai" className="p-4 sm:p-6">
+      <Card variant="glass" className="p-4 sm:p-6 bg-white dark:bg-dark-card border border-slate-200 dark:border-white/10 shadow-card-light dark:shadow-card-elevated">
         <div className="flex flex-col h-[calc(100vh-280px)] min-h-[480px] max-h-[640px]">
+          {/* Chat Messages Log */}
           <div className="flex-1 overflow-y-auto space-y-4 pr-1 sm:pr-2">
             {messages.map((m) => (
               <motion.div
@@ -106,21 +110,21 @@ export const AICopilot: React.FC = () => {
                 className={`flex gap-2.5 sm:gap-3 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {m.sender === 'ai' && (
-                  <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/40 text-purple-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-xl bg-purple-100 border border-purple-300 text-purple-700 dark:bg-purple-600/20 dark:border-purple-500/40 dark:text-purple-300 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Sparkles className="w-4 h-4" aria-hidden="true" />
                   </div>
                 )}
                 <div
                   className={`max-w-[90%] sm:max-w-[80%] rounded-2xl p-3.5 sm:p-4 text-xs leading-relaxed ${
                     m.sender === 'user'
-                      ? 'bg-brand-500 text-slate-950 rounded-tr-xs shadow-emerald-glow font-semibold'
-                      : 'bg-dark-surface2 border border-white/10 text-slate-200 rounded-tl-xs shadow-sm dark:bg-dark-surface2 light:bg-white light:border-slate-200 light:text-slate-900'
+                      ? 'bg-purple-100 border border-purple-200 text-purple-950 dark:bg-brand-500 dark:text-slate-950 font-bold rounded-tr-xs shadow-sm'
+                      : 'bg-white border border-slate-200 text-slate-900 dark:bg-dark-surface2 dark:border-white/10 dark:text-slate-200 rounded-tl-xs shadow-sm'
                   }`}
                 >
-                  <p className="whitespace-pre-line">{m.text}</p>
+                  <p className="whitespace-pre-line type-body">{m.text}</p>
 
                   {m.actionableBtn && (
-                    <div className="mt-3 pt-3 border-t border-white/10">
+                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-white/10">
                       <Button
                         variant="ai"
                         size="sm"
@@ -134,8 +138,8 @@ export const AICopilot: React.FC = () => {
                   )}
 
                   {m.sender === 'ai' && (
-                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center gap-1.5 text-[10px] font-semibold text-slate-400">
-                      <ShieldCheck className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
+                    <div className="mt-3 pt-2.5 border-t border-slate-200 dark:border-white/10 flex items-center gap-1.5 text-[10px] font-bold text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 p-2 rounded-xl border border-amber-200 dark:border-amber-500/20">
+                      <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" aria-hidden="true" />
                       <span>Educational Purposes Only — Not Financial Advice</span>
                     </div>
                   )}
@@ -144,8 +148,8 @@ export const AICopilot: React.FC = () => {
             ))}
 
             {isTyping && (
-              <div className="flex gap-3 items-center text-slate-400 text-xs py-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-600/20 text-purple-300 flex items-center justify-center">
+              <div className="flex gap-3 items-center text-slate-700 dark:text-slate-400 text-xs py-2 font-medium">
+                <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 dark:bg-purple-600/20 dark:text-purple-300 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 animate-spin" aria-hidden="true" />
                 </div>
                 <span>Neural Copilot is analyzing live market signals...</span>
@@ -153,27 +157,29 @@ export const AICopilot: React.FC = () => {
             )}
           </div>
 
-          <div className="py-3 flex gap-2 overflow-x-auto scroll-hide border-t border-white/10">
+          {/* Quick Action Prompt Chips */}
+          <div className="py-3 flex gap-2 overflow-x-auto scroll-hide border-t border-slate-200 dark:border-white/10">
             {quickPrompts.map((qp, i) => (
               <button
                 key={i}
                 onClick={() => handleSend(qp.query)}
-                className="px-3 py-2 rounded-xl bg-dark-surface1 border border-white/10 hover:border-purple-500/40 text-xs text-slate-300 hover:text-white whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer min-h-[44px] sm:min-h-[36px]"
+                className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:border-purple-400 hover:bg-slate-50 text-xs text-slate-800 font-bold dark:bg-dark-surface1 dark:border-white/10 dark:text-slate-300 dark:hover:text-white whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer min-h-[44px] sm:min-h-[36px]"
               >
-                <Sparkles className="w-3.5 h-3.5 text-purple-400" aria-hidden="true" />
+                <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" aria-hidden="true" />
                 {qp.label}
               </button>
             ))}
           </div>
 
-          <div className="pt-3 flex items-center gap-2 sticky bottom-0 bg-dark-surface1/95 p-1 rounded-xl">
+          {/* Message Composer & Input Bar */}
+          <div className="pt-3 flex items-center gap-2 sticky bottom-0 bg-slate-100 dark:bg-dark-surface1/95 border border-slate-300 dark:border-white/10 p-1.5 rounded-2xl">
             <input
               type="text"
               placeholder="Ask AI Copilot..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              className="flex-1 glass-input px-4 py-3 text-xs text-slate-100 placeholder-slate-400 rounded-xl"
+              className="flex-1 bg-white border border-slate-300 text-slate-900 placeholder:text-slate-500 dark:bg-dark-surface2 dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 px-4 py-3 text-xs rounded-xl focus-visible:ring-2 focus-visible:ring-purple-500 font-medium"
               aria-label="Ask AI Copilot prompt input"
             />
             <Button
