@@ -18,10 +18,10 @@ export const Card: React.FC<CardProps> = ({
   const baseStyles = 'rounded-2xl transition-all duration-200 overflow-hidden w-full max-w-full';
 
   const variants = {
-    glass: 'bg-white border border-slate-200 shadow-card-light hover:border-slate-300 dark:bg-dark-surface2 dark:border-white/10 dark:shadow-card-elevated dark:hover:border-white/20 text-slate-900 dark:text-slate-100',
-    solid: 'bg-slate-50 border border-slate-200 shadow-xs dark:bg-dark-surface1 dark:border-white/10 text-slate-900 dark:text-slate-100',
-    gradient: 'bg-gradient-to-br from-white via-slate-50 to-white border border-slate-200 shadow-card-light dark:from-dark-surface2 dark:via-dark-surface1 dark:to-dark-surface2 dark:border-white/10 text-slate-900 dark:text-slate-100',
-    ai: 'bg-gradient-to-br from-purple-50 via-white to-purple-50/50 border border-purple-200 shadow-sm dark:from-purple-950/40 dark:via-dark-surface2 dark:to-dark-surface1 dark:border-purple-500/30 dark:shadow-purple-glow text-slate-900 dark:text-slate-100',
+    glass: 'bg-white border border-slate-200 shadow-card-light hover:border-slate-300 dark:bg-dark-card dark:border-white/10 dark:shadow-card-elevated dark:hover:border-white/20 text-slate-900 dark:text-slate-100',
+    solid: 'bg-slate-50 border border-slate-200 shadow-xs dark:bg-dark-surface2 dark:border-white/10 text-slate-900 dark:text-slate-100',
+    gradient: 'bg-gradient-to-br from-white via-slate-50 to-white border border-slate-200 shadow-card-light dark:from-dark-card dark:via-dark-surface1 dark:to-dark-card dark:border-white/10 text-slate-900 dark:text-slate-100',
+    ai: 'bg-gradient-to-br from-purple-50 via-white to-purple-50/50 border border-purple-200 shadow-sm dark:from-purple-950/40 dark:via-dark-card dark:to-dark-surface1 dark:border-purple-500/30 dark:shadow-purple-glow text-slate-900 dark:text-slate-100',
   };
 
   const glows = glowing
@@ -95,7 +95,7 @@ export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => (
   <div
-    className={twMerge('px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border-t border-slate-100 text-xs dark:bg-dark-surface1/50 dark:border-white/10 text-slate-700 dark:text-slate-300', className)}
+    className={twMerge('px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border-t border-slate-100 text-xs dark:bg-dark-surface2/80 dark:border-white/10 text-slate-700 dark:text-slate-300', className)}
     {...props}
   >
     {children}

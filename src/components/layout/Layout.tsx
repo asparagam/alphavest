@@ -24,13 +24,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               className="fixed inset-0 bg-slate-900/50 dark:bg-black/70 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <div className="relative z-10 w-64 bg-white dark:bg-dark-surface1 h-full shadow-2xl">
+            <div className="relative z-10 w-64 bg-white dark:bg-dark-card h-full shadow-2xl">
               <Sidebar onClose={() => setMobileMenuOpen(false)} />
             </div>
           </div>
         )}
 
-        <div className="flex-1 flex flex-col min-w-0 bg-[#F9FAFB] dark:bg-dark-base">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#F9FAFB] dark:bg-dark-page">
           <TopNavigation
             onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
             onOpenAiCopilot={() => setAiCopilotOpen(true)}

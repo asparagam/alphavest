@@ -46,14 +46,18 @@ export default {
           900: '#1e3a8a',
         },
 
-        // Dark Theme Surface Hierarchy (Obsidian Identity)
+        // Dark Theme Surface Hierarchy (Obsidian FinTech System)
         dark: {
-          base: '#090b13',        // Level 0: App Background
-          surface1: '#111827',    // Level 1: Page Canvas
-          surface2: '#172033',    // Level 2: Card Surface
-          elevated: '#1e293b',    // Level 3: Elevated Containers
-          interactive: '#24324a', // Level 4: Interactive Surface
-          border: 'rgba(255,255,255,0.10)',
+          base: '#0B1020',        // Level 0: App Canvas (#0B1020)
+          page: '#101827',        // Level 1: Content Canvas (#101827)
+          hero: '#172033',        // Level 2: Hero Panels (#172033)
+          card: '#1B2436',        // Level 3: Primary Cards (#1B2436)
+          surface1: '#172033',    // Level 2 Alias
+          surface2: '#222C41',    // Level 4: Secondary Cards (#222C41)
+          elevated: '#263249',    // Level 5: Elevated Containers (#263249)
+          interactive: '#2C3850', // Interactive Surfaces
+          border: 'rgba(255,255,255,0.06)',
+          borderHover: 'rgba(255,255,255,0.10)',
           divider: 'rgba(255,255,255,0.06)',
           hover: 'rgba(255,255,255,0.04)',
           selected: 'rgba(99,102,241,0.18)',
@@ -67,9 +71,9 @@ export default {
           elevated: '#ffffff',    // Level 3: Elevated Surface
           secondary: '#f4f6f8',   // Level 4: Secondary Surface
           tertiary: '#eef2f7',    // Level 5: Tertiary Surface
-          textPrimary: '#111827', // Slate 900 (21.0:1 Ratio)
-          textSecondary: '#4b5563',// Slate 600 (9.0:1 Ratio)
-          textMuted: '#6b7280',   // Slate 500 (4.8:1 Ratio — exceeds 4.5:1 requirement)
+          textPrimary: '#111827', // Slate 900
+          textSecondary: '#4b5563',// Slate 600
+          textMuted: '#6b7280',   // Slate 500
           border: '#e2e8f0',      // Slate 200 Border
           divider: '#cbd5e1',     // Slate 300 Divider
         },
@@ -89,11 +93,11 @@ export default {
         mono: ['JetBrains Mono', 'Fira Code', ...defaultTheme.fontFamily.mono],
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.45)',
+        'glass': '0 10px 30px rgba(0,0,0,0.28), 0 2px 10px rgba(0,0,0,0.18)',
         'glass-light': '0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.04)',
         'emerald-glow': '0 0 25px -5px rgba(22, 199, 132, 0.3)',
         'purple-glow': '0 0 25px -5px rgba(124, 58, 237, 0.35)',
-        'card-elevated': '0 4px 20px -2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.10)',
+        'card-elevated': '0 10px 30px rgba(0,0,0,0.28), 0 2px 10px rgba(0,0,0,0.18)',
         'card-light': '0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.04)',
       },
     },

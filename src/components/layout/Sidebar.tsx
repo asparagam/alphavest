@@ -38,7 +38,10 @@ export const navItems = [
   { path: '/profile', label: 'Profile', icon: User },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+  onClose,
+  isCollapsed = false,
+}) => {
   const { user } = usePortfolio();
 
   useEffect(() => {
@@ -55,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
     <aside
       className={`${
         isCollapsed ? 'w-20' : 'w-64'
-      } bg-white border-r border-slate-200 dark:bg-dark-surface1/95 dark:border-white/10 flex flex-col h-screen sticky top-0 z-30 select-none backdrop-blur-xl transition-all duration-200`}
+      } bg-white border-r border-slate-200 dark:bg-dark-base dark:border-white/10 flex flex-col h-screen sticky top-0 z-30 select-none backdrop-blur-xl transition-all duration-200`}
       role="navigation"
       aria-label="Main Navigation Sidebar"
     >
@@ -91,6 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
             Platform Menu
           </div>
         )}
+
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -98,25 +102,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
               key={item.path}
               to={item.path}
               onClick={onClose}
-              title={isCollapsed ? item.label : undefined}
               className={({ isActive }) =>
-                `flex items-center ${
-                  isCollapsed ? 'justify-center px-0' : 'justify-between px-3'
-                } py-3 sm:py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 min-h-[44px] sm:min-h-[36px] ${
+                `flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs transition-all min-h-[44px] ${
                   isActive
-                    ? item.isAi
-                      ? 'bg-purple-100 text-purple-900 border border-purple-300 dark:bg-gradient-to-r dark:from-purple-600/30 dark:to-blue-600/20 dark:text-white dark:border-purple-500/40'
-                      : 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold shadow-xs dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30'
-                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-white/5'
+                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-extrabold border border-emerald-500/20'
+                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-slate-200'
                 }`
               }
             >
               <div className="flex items-center gap-3">
-                <Icon className="w-5 h-5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
+                <Icon className="w-4 h-4" />
                 {!isCollapsed && <span>{item.label}</span>}
               </div>
+
               {!isCollapsed && item.badge && (
-                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase rounded-md bg-purple-600 text-white shadow-xs">
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                    item.isAi
+                      ? 'bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30'
+                      : 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                  }`}
+                >
                   {item.badge}
                 </span>
               )}
@@ -125,25 +131,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
         })}
       </div>
 
-      {!isCollapsed && (
-        <div className="p-3 border-t border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-dark-surface2/50">
-          <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-dark-surface1 dark:border-white/10 flex items-center gap-3">
+      <div className="p-3 border-t border-slate-200 dark:border-white/10">
+        <NavLink
+          to="/profile"
+          className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200 dark:bg-dark-card dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all min-h-[44px]"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-9 h-9 rounded-xl object-cover border border-emerald-500/30"
+              className="w-8 h-8 rounded-full object-cover ring-2 ring-emerald-500/30 flex-shrink-0"
             />
-            <div className="flex-1 min-w-0">
-              <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{user.name}</h4>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold truncate">
-                <Zap className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
-                <span>Alpha Black</span>
+            {!isCollapsed && (
+              <div className="truncate">
+                <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{user.name}</h4>
+                <p className="type-caption text-emerald-600 dark:text-emerald-400 text-[10px] font-mono flex items-center gap-1 truncate">
+                  <Zap className="w-2.5 h-2.5" /> {user.tier}
+                </p>
               </div>
-            </div>
-            <Lock className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 flex-shrink-0" aria-hidden="true" />
+            )}
           </div>
-        </div>
-      )}
+          {!isCollapsed && <Lock className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />}
+        </NavLink>
+      </div>
     </aside>
   );
 };

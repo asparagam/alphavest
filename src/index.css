@@ -95,9 +95,9 @@ html.light .type-display-xl {
   color: #111827 !important;
 }
 
-/* Hero Banner Container Styling */
+/* Hero Banner Container Styling (#172033 Hero Surface) */
 .hero-panel {
-  background: linear-gradient(180deg, #182238 0%, #111827 100%);
+  background: linear-gradient(180deg, #172033 0%, #101827 100%);
   @apply border border-white/10 rounded-2xl shadow-card-elevated p-4 sm:p-6 lg:p-8 relative overflow-hidden;
 }
 
@@ -106,17 +106,17 @@ html.light .hero-panel {
   @apply border-slate-200 shadow-card-light;
 }
 
-/* Layered Surfaces & Glass Utilities */
+/* Layered Dark Surfaces (#1B2436 Card Surface) */
 .glass-panel {
-  @apply bg-white border border-slate-200 shadow-card-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated;
+  @apply bg-white border border-slate-200 shadow-card-light rounded-2xl backdrop-blur-xl dark:bg-dark-card dark:border-white/10 dark:shadow-card-elevated;
 }
 
 .glass-card {
-  @apply bg-white border border-slate-200 rounded-2xl backdrop-blur-md shadow-card-light transition-all duration-200 hover:border-slate-300 dark:bg-dark-surface2 dark:border-white/10 dark:shadow-sm dark:hover:border-white/20;
+  @apply bg-white border border-slate-200 rounded-2xl backdrop-blur-md shadow-card-light transition-all duration-200 hover:border-slate-300 dark:bg-dark-card dark:border-white/10 dark:shadow-card-elevated dark:hover:border-white/20;
 }
 
 .glass-input {
-  @apply bg-slate-100 border border-slate-300 text-slate-900 placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-elevated dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
+  @apply bg-slate-100 border border-slate-300 text-slate-900 placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-page dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
 }
 
 /* Financial Tabular Numeric Formatting */
