@@ -5,6 +5,7 @@ export interface CustomChartTooltipProps {
   active?: boolean;
   payload?: any[];
   label?: string;
+  valuePrefix?: string;
   valueFormatter?: (val: number) => string;
 }
 
@@ -14,27 +15,33 @@ export const CustomChartTooltip: React.FC<CustomChartTooltipProps> = ({
   label,
   valueFormatter = formatCurrency,
 }) => {
-  if (!active || !payload || !payload.length) return null;
-
-  return (
-    <div className="glass-panel p-3 border border-dark-border/90 shadow-2xl rounded-xl space-y-1.5 text-xs min-w-[160px] dark:bg-dark-surface/95 light:bg-white light:border-slate-200">
-      {label && <p className="type-caption text-slate-400 font-bold border-b border-dark-border/40 pb-1 dark:border-dark-border/40 light:border-slate-100">{label}</p>}
-      <div className="space-y-1">
+  if (active && payload && payload.length) {
+    return (
+      <div className="p-3 bg-white border border-slate-300 rounded-xl shadow-lg dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated space-y-1.5 min-w-[160px] backdrop-blur-md">
+        {label && (
+          <p className="type-caption font-bold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-white/10 pb-1 font-mono">
+            {label}
+          </p>
+        )}
         {payload.map((entry, index) => (
-          <div key={`item-${index}`} className="flex items-center justify-between gap-4 font-mono-nums">
+          <div key={`item-${index}`} className="flex items-center justify-between text-xs gap-3">
             <div className="flex items-center gap-1.5">
               <div
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: entry.color || entry.stroke || '#10b981' }}
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ backgroundColor: entry.color || entry.fill }}
               />
-              <span className="type-caption font-medium text-slate-300 dark:text-slate-300 light:text-slate-700">{entry.name}:</span>
+              <span className="type-caption text-slate-700 dark:text-slate-300 truncate max-w-[110px]">
+                {entry.name || entry.dataKey}
+              </span>
             </div>
-            <span className="font-bold text-slate-100 dark:text-slate-100 light:text-slate-900">
-              {valueFormatter(Number(entry.value))}
+            <span className="font-mono font-bold text-slate-900 dark:text-slate-100 font-mono-nums">
+              {typeof entry.value === 'number' ? valueFormatter(entry.value) : entry.value}
             </span>
           </div>
         ))}
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 };

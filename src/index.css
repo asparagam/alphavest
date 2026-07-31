@@ -14,7 +14,7 @@
 
   /* High-Contrast Light Mode Root Overrides */
   html.light body {
-    @apply bg-light-base text-slate-900;
+    @apply bg-slate-50 text-slate-900;
   }
 }
 
@@ -64,7 +64,7 @@
 .type-caption {
   font-size: clamp(0.75rem, 0.9vw, 0.813rem);
   line-height: 1.4;
-  @apply font-medium text-slate-700 dark:text-slate-300;
+  @apply font-medium text-slate-700 dark:text-slate-400;
 }
 
 .type-label {
@@ -77,13 +77,21 @@
   @apply font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400;
 }
 
-/* Explicit Dark Mode Heading Text Override */
+/* Explicit Theme Title Overrides */
 .dark .type-heading-m,
 .dark .type-heading-l,
 .dark .type-heading-xl,
 .dark .type-display-l,
 .dark .type-display-xl {
   color: #ffffff !important;
+}
+
+html.light .type-heading-m,
+html.light .type-heading-l,
+html.light .type-heading-xl,
+html.light .type-display-l,
+html.light .type-display-xl {
+  color: #0f172a !important;
 }
 
 /* Hero Banner Container Styling */
@@ -97,9 +105,9 @@ html.light .hero-panel {
   @apply border-slate-300 shadow-card-light;
 }
 
-/* Layered Dark & High-Contrast Light Surfaces */
+/* Layered Surfaces & Glass Utilities */
 .glass-panel {
-  @apply bg-white border border-slate-300 shadow-glass-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated;
+  @apply bg-white border border-slate-300 shadow-card-light rounded-2xl backdrop-blur-xl dark:bg-dark-surface1 dark:border-white/10 dark:shadow-card-elevated;
 }
 
 .glass-card {
@@ -107,7 +115,7 @@ html.light .hero-panel {
 }
 
 .glass-input {
-  @apply bg-slate-100 border border-slate-300 text-slate-900 placeholder-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-elevated dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
+  @apply bg-slate-100 border border-slate-300 text-slate-900 placeholder-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all dark:bg-dark-elevated dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-400 min-h-[44px];
 }
 
 /* Financial Tabular Numeric Formatting */

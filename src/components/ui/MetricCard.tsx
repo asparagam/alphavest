@@ -72,33 +72,33 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
   return (
     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.15 }} className="w-full">
-      <Card variant={variant} glowing={glowing} className="p-4 sm:p-6 relative group border border-white/10 dark:border-white/10 light:border-slate-200 hover:border-emerald-500/40">
+      <Card variant={variant} glowing={glowing} className="p-4 sm:p-6 relative group border border-slate-200 dark:border-white/10 hover:border-emerald-500/40">
         <div className="flex items-start justify-between gap-2 sm:gap-3">
           <div className="space-y-1 min-w-0 flex-1">
-            <span className="type-overline block font-semibold text-slate-400 dark:text-slate-400 light:text-slate-500 truncate">
+            <span className="type-overline block font-semibold text-slate-700 dark:text-slate-400 truncate">
               {title}
             </span>
 
             {/* Dominant Responsive Numeric Value */}
-            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold font-mono font-mono-nums tracking-tight text-slate-100 dark:text-slate-100 light:text-slate-900 mt-1 truncate">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold font-mono font-mono-nums tracking-tight text-slate-900 dark:text-slate-100 mt-1 truncate">
               {value}
             </div>
           </div>
 
           {icon && (
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-dark-surface1 border border-white/10 flex items-center justify-center text-slate-300 dark:bg-dark-surface1 dark:border-white/10 dark:text-slate-300 light:bg-slate-100 light:border-slate-200 light:text-slate-700 flex-shrink-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 dark:bg-dark-surface1 dark:border-white/10 dark:text-slate-300 flex items-center justify-center flex-shrink-0">
               {icon}
             </div>
           )}
         </div>
 
-        <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-white/10 dark:border-white/10 light:border-slate-100 flex items-center justify-between gap-2">
+        <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-100 dark:border-white/10 flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 truncate">
             {(changePercent !== undefined || change !== undefined) && (
               <ReturnBadge value={changePercent ?? change ?? 0} />
             )}
             {subtext && (
-              <span className="type-caption text-slate-400 dark:text-slate-400 light:text-slate-500 truncate hidden xs:inline">
+              <span className="type-caption text-slate-600 dark:text-slate-400 truncate hidden xs:inline">
                 {subtext}
               </span>
             )}

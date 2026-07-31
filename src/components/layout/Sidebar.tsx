@@ -55,21 +55,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
     <aside
       className={`${
         isCollapsed ? 'w-20' : 'w-64'
-      } bg-dark-surface1/95 border-r border-white/10 flex flex-col h-screen sticky top-0 z-30 select-none backdrop-blur-xl transition-all duration-200 dark:bg-dark-surface1/95 dark:border-white/10 light:bg-white light:border-light-border`}
+      } bg-white border-r border-slate-200 dark:bg-dark-surface1/95 dark:border-white/10 flex flex-col h-screen sticky top-0 z-30 select-none backdrop-blur-xl transition-all duration-200`}
       role="navigation"
       aria-label="Main Navigation Sidebar"
     >
-      <div className="h-16 px-4 flex items-center justify-between border-b border-white/10 dark:border-white/10 light:border-slate-100">
+      <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200 dark:border-white/10">
         <NavLink to="/" className="flex items-center gap-3 group" onClick={onClose}>
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 via-brand-500 to-emerald-300 flex items-center justify-center text-slate-950 shadow-emerald-glow font-black text-lg flex-shrink-0">
             A
           </div>
           {!isCollapsed && (
             <div className="flex flex-col">
-              <span className="font-display font-bold text-lg text-slate-100 dark:text-slate-100 light:text-slate-900 tracking-tight leading-none group-hover:text-emerald-400 transition-colors">
-                Alpha<span className="text-emerald-400">Vest</span>
+              <span className="font-display font-bold text-lg text-slate-900 dark:text-slate-100 tracking-tight leading-none group-hover:text-emerald-500 transition-colors">
+                Alpha<span className="text-emerald-500">Vest</span>
               </span>
-              <span className="type-overline text-slate-400">Enterprise AI</span>
+              <span className="type-overline text-slate-500 dark:text-slate-400">Enterprise AI</span>
             </div>
           )}
         </NavLink>
@@ -77,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
         {onClose && (
           <button
             onClick={onClose}
-            className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="lg:hidden p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/5 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close navigation drawer"
           >
             <X className="w-5 h-5" aria-hidden="true" />
@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
 
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         {!isCollapsed && (
-          <div className="px-3 pb-2 type-overline text-slate-400">
+          <div className="px-3 pb-2 type-overline text-slate-600 dark:text-slate-400">
             Platform Menu
           </div>
         )}
@@ -105,9 +105,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
                 } py-3 sm:py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 min-h-[44px] sm:min-h-[36px] ${
                   isActive
                     ? item.isAi
-                      ? 'bg-gradient-to-r from-purple-600/30 to-blue-600/20 text-white border border-purple-500/40 shadow-purple-glow'
-                      : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-sm dark:bg-emerald-500/15 dark:text-emerald-400 light:bg-emerald-50 light:text-emerald-700 light:border-emerald-200'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-900 light:hover:bg-slate-100'
+                      ? 'bg-purple-100 text-purple-900 border border-purple-300 dark:bg-gradient-to-r dark:from-purple-600/30 dark:to-blue-600/20 dark:text-white dark:border-purple-500/40'
+                      : 'bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold shadow-xs dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-white/5'
                 }`
               }
             >
@@ -116,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
                 {!isCollapsed && <span>{item.label}</span>}
               </div>
               {!isCollapsed && item.badge && (
-                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase rounded-md bg-purple-500 text-white shadow-xs">
+                <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase rounded-md bg-purple-600 text-white shadow-xs">
                   {item.badge}
                 </span>
               )}
@@ -126,21 +126,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose, isCollapsed = false }
       </div>
 
       {!isCollapsed && (
-        <div className="p-3 border-t border-white/10 bg-dark-surface2/50 dark:border-white/10 dark:bg-dark-surface2/50 light:border-slate-100 light:bg-slate-50">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-dark-surface1 to-dark-surface2 border border-white/10 flex items-center gap-3 dark:from-dark-surface1 dark:to-dark-surface2 dark:border-white/10 light:from-white light:to-slate-100 light:border-slate-200">
+        <div className="p-3 border-t border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-dark-surface2/50">
+          <div className="p-3 rounded-xl bg-white border border-slate-200 dark:bg-dark-surface1 dark:border-white/10 flex items-center gap-3">
             <img
               src={user.avatar}
               alt={user.name}
               className="w-9 h-9 rounded-xl object-cover border border-emerald-500/30"
             />
             <div className="flex-1 min-w-0">
-              <h4 className="text-xs font-bold text-slate-100 dark:text-slate-100 light:text-slate-900 truncate">{user.name}</h4>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-medium truncate">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{user.name}</h4>
+              <div className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold truncate">
                 <Zap className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
                 <span>Alpha Black</span>
               </div>
             </div>
-            <Lock className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" aria-hidden="true" />
+            <Lock className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 flex-shrink-0" aria-hidden="true" />
           </div>
         </div>
       )}
