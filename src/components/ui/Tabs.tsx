@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 
 export interface TabItem {
@@ -20,7 +19,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onChange, className
   return (
     <div
       className={clsx(
-        'flex items-center gap-1 bg-slate-100 border border-slate-300 dark:bg-dark-surface/80 dark:border-white/10 p-1 rounded-xl overflow-x-auto scroll-hide',
+        'bg-slate-100 border border-slate-300 dark:bg-[#1B2436] dark:border-white/10 p-2 rounded-[18px] flex items-center gap-2 overflow-x-auto scroll-hide',
         className
       )}
       role="tablist"
@@ -33,37 +32,28 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onChange, className
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={clsx(
-              'relative px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer min-h-[44px] sm:min-h-[36px]',
+              'h-10 min-h-[40px] px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer select-none border',
               isActive
-                ? 'text-emerald-950 font-extrabold dark:text-white'
-                : 'text-slate-800 hover:text-slate-950 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/5'
+                ? 'bg-emerald-100 border-emerald-300 text-emerald-950 font-extrabold shadow-xs dark:bg-emerald-500/20 dark:border-emerald-500/35 dark:text-[#34D399]'
+                : 'bg-transparent border-transparent text-slate-700 hover:text-slate-950 hover:bg-slate-200/60 dark:text-[#94A3B8] dark:hover:text-[#F8FAFC] dark:hover:bg-white/5'
             )}
             role="tab"
             aria-selected={isActive}
           >
-            {isActive && (
-              <motion.div
-                layoutId="activeTabBadge"
-                className="absolute inset-0 bg-emerald-100 border border-emerald-300 shadow-sm dark:bg-brand-500/20 dark:border-brand-500/40 rounded-lg"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              />
+            {tab.icon}
+            <span>{tab.label}</span>
+            {tab.count !== undefined && (
+              <span
+                className={clsx(
+                  'px-2 py-0.5 text-[10px] font-mono font-bold rounded-full transition-colors',
+                  isActive
+                    ? 'bg-emerald-700 text-white dark:bg-[#10B981] dark:text-white'
+                    : 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
+                )}
+              >
+                {tab.count}
+              </span>
             )}
-            <span className="relative z-10 flex items-center gap-1.5">
-              {tab.icon}
-              {tab.label}
-              {tab.count !== undefined && (
-                <span
-                  className={clsx(
-                    'px-2 py-0.5 text-[10px] font-mono font-bold rounded-full',
-                    isActive
-                      ? 'bg-emerald-700 text-white dark:bg-brand-500 dark:text-slate-950'
-                      : 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
-                  )}
-                >
-                  {tab.count}
-                </span>
-              )}
-            </span>
           </button>
         );
       })}
